@@ -11,7 +11,7 @@ struct SCamera
 	float x, y, z;
 	float Xrot, Zrot;
 };
-void WndResize(int x, int y, Event event);
+void WndResize(int x, int y);
 void CameraAplly();
 void CameraRotation(float xAngle, float zAngle);
 void PlayerMove(Window& window);

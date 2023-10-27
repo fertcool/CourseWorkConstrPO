@@ -11,18 +11,23 @@ SCamera camera = { 0,0,1.7,0,0 };
 
 void PlayerMove(Window& window)
 {
-    CameraAutoMoveByMouse(400, 400, 0.2f, window);
+    
     CameraMoveDirection();
+    CameraAutoMoveByMouse(400, 400, 0.2f, window);
     CameraAplly();
 }
 
-void WndResize(int x, int y, Event event)
+void WndResize(int x, int y)
 {
     glViewport(0, 0, x, y);
     float k = x / (float)y;
     float sz = 0.1;
+
+    glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     glFrustum(-k * sz, k * sz, -sz, sz, sz * 2, 100);
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
 }
 
 void CameraAplly()

@@ -26,13 +26,42 @@ const GLuint mapH = 100;
 
 TCell map[mapW][mapH];
 TColor mapCol[mapW][mapH];
+TCell mapNormal[mapW][mapH];
 GLuint mapInd[mapW - 1][mapH - 1][6];
 
 int mapIndCnt = sizeof(mapInd) / sizeof(GLuint);
 
+// создаем окно
+Window window(sf::VideoMode(1280, 700), "OpenGL", Style::Default, sf::ContextSettings(24, 8, 4, 3, 3));
+
+
 BOOL IsCoordInMap(float x, float y)
 {
     return (x >= 0) && (x < mapW) && (y >= 0) && (y < mapH);
+}
+void CalcNormals(TCell a, TCell b, TCell c, TCell* n)
+{
+    float wrki;
+    TCell v1, v2;
+
+    v1.x = a.x - b.x;
+    v1.y = a.y - b.y;
+    v1.z = a.z - b.z;
+
+    v2.x = b.x - c.x;
+    v2.y = b.y - c.y;
+    v2.z = b.z - c.z;
+
+    n->x = (v1.y * v2.z - v1.z * v2.y);
+    n->y = (v1.z * v2.x - v1.x * v2.z);
+    n->z = (v1.x * v2.y - v1.y * v2.x);
+
+    wrki = sqrt(pow(n->x, 2) + pow(n->y, 2) + pow(n->z, 2));
+
+    n->x /= wrki;
+    n->y /= wrki;
+    n->z /= wrki;
+
 }
 void MapCreateHill(int posX, int posY, int rad, int height)
 {
@@ -61,7 +90,7 @@ float MapGetHeight(float x, float y)
     float h2 = ((1 - (x - cX)) * map[cX][cY+1].z + (x - cX) * map[cX + 1][cY+1].z);
     return (1 - (y - cY)) * h1 + (y - cY) * h2;
 }
-void Map_Init()
+void MapInit()
 {
     for (int i = 0; i < mapW; ++i)
     {
@@ -101,54 +130,77 @@ void Map_Init()
     {
         for (int j = 0; j < mapH - 1; ++j)
         {
-            float dc = (map[i + 1][j + 1].z - map[i][j].z) * 0.2;
-            mapCol[i][j].r += dc;
-            mapCol[i][j].g += dc;
-            mapCol[i][j].b += dc;
+            CalcNormals(map[i][j], map[i + 1][j], map[i][j + 1], &mapNormal[i][j]);
         }
     }
 }
 
+void UpdatePosition()
+{
+    camera.z = MapGetHeight(camera.x, camera.y) + 1.7;
+}
 void MapShow()
 {
-    glEnableClientState(GL_VERTEX_ARRAY);
-    glEnableClientState(GL_COLOR_ARRAY);
-    glVertexPointer(3, GL_FLOAT, 0, map);
-    glColorPointer(3, GL_FLOAT, 0, mapCol);
-    glDrawElements(GL_TRIANGLES, mapIndCnt, GL_UNSIGNED_INT, mapInd);
-    glDisableClientState(GL_VERTEX_ARRAY);
-    glDisableClientState(GL_COLOR_ARRAY);
+    glEnable(GL_LIGHTING);
+    glEnable(GL_LIGHT0);
+    glEnable(GL_COLOR_MATERIAL);
+    glEnable(GL_NORMALIZE);
+
+    // очищаем буферы
+    glClearColor(0.0f, 1.0f, 0.7f, 0.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+
+    glPushMatrix();
+
+        PlayerMove(window);
+        UpdatePosition();
+
+        GLfloat position[] = { 1,0,2,0 };
+        glLightfv(GL_LIGHT0, GL_POSITION, position);
+
+        glEnableClientState(GL_VERTEX_ARRAY);
+        glEnableClientState(GL_COLOR_ARRAY);
+        glEnableClientState(GL_NORMAL_ARRAY);
+            glVertexPointer(3, GL_FLOAT, 0, map);
+            glColorPointer(3, GL_FLOAT, 0, mapCol);
+            glNormalPointer(GL_FLOAT, 0, mapNormal);
+            glDrawElements(GL_TRIANGLES, mapIndCnt, GL_UNSIGNED_INT, mapInd);
+        glDisableClientState(GL_VERTEX_ARRAY);
+        glDisableClientState(GL_COLOR_ARRAY);
+        glDisableClientState(GL_NORMAL_ARRAY);
+
+    glPopMatrix();
+
 
 }
-// создаем окно
-Window window(sf::VideoMode(900, 600), "OpenGL", Style::Default, sf::ContextSettings(24, 8, 4, 3, 3));
 
-void ShowWorld()
-{
-    glEnableClientState(GL_VERTEX_ARRAY);
-        glVertexPointer(3, GL_FLOAT, 0, &vert);
-        for (int i = -10; i < 10; ++i)
-        {
-            for (int j = -10; j < 10; ++j)
-            {
-                glPushMatrix();
-                    if ((i + j) % 2 == 0)
-                    {
-                        glColor3f(0, 0.5, 0);
-                    }
-                    else
-                    {
-                        glColor3f(1, 1, 1);
-                    }
-                    glTranslatef(i * 2, j * 2, 0);
-                    glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
-                glPopMatrix();
-            }
-        }
-        glColor3f(0, 0.5, 0);
-        glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
-    glDisableClientState(GL_VERTEX_ARRAY);
-}
+//void ShowWorld()
+//{
+//    glEnableClientState(GL_VERTEX_ARRAY);
+//        glVertexPointer(3, GL_FLOAT, 0, &vert);
+//        for (int i = -10; i < 10; ++i)
+//        {
+//            for (int j = -10; j < 10; ++j)
+//            {
+//                glPushMatrix();
+//                    if ((i + j) % 2 == 0)
+//                    {
+//                        glColor3f(0, 0.5, 0);
+//                    }
+//                    else
+//                    {
+//                        glColor3f(1, 1, 1);
+//                    }
+//                    glTranslatef(i * 2, j * 2, 0);
+//                    glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+//                glPopMatrix();
+//            }
+//        }
+//        glColor3f(0, 0.5, 0);
+//        glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+//    glDisableClientState(GL_VERTEX_ARRAY);
+//}
 
 int main()
 {
@@ -167,7 +219,9 @@ int main()
     glEnable(GL_DEPTH_TEST);
     ShowCursor(FALSE);
 
-    Map_Init();
+    MapInit();
+
+    WndResize(window.getSize().x, window.getSize().y);
 
     while (running)
     {
@@ -184,40 +238,14 @@ int main()
             else if (event.type == sf::Event::Resized)
             {
                 // применяем область просмотра, когда изменены размеры окна
-                WndResize(event.size.width, event.size.height, event);
+                WndResize(event.size.width, event.size.height);
             }
         }
 
 
 
-        // очищаем буферы
-        glClearColor(0.0f, 1.0f, 0.7f, 0.0f);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-
-        glPushMatrix();
-            PlayerMove(window);
-            camera.z = MapGetHeight(camera.x, camera.y) + 1.7;
-            MapShow();
-            
-        glPopMatrix();
+        MapShow();
         
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
