@@ -66,19 +66,19 @@ void CameraMoveDirection()
     float speed = 0;
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
     {
-        speed = 0.1;
+        speed = 0.5;
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
     {
-        speed = -0.1;
+        speed = -0.5;
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
     {
-        speed = 0.1; Angle -= M_PI_2;
+        speed = 0.5; Angle -= M_PI_2;
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
     {
-        speed = 0.1; Angle += M_PI_2;
+        speed = 0.5; Angle += M_PI_2;
     }
     if (speed != 0)
     {

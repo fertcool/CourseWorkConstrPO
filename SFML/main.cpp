@@ -20,19 +20,52 @@ struct TColor
 {
     float r, g, b;
 };
+struct TUV
+{
+    float u, v;
+};
 
-const GLuint mapW = 100;
-const GLuint mapH = 100;
+struct TObject
+{
+    float x, y, z;
+    int type;
+    float scale;
+};
+
+const GLuint mapW = 300;
+const GLuint mapH = 300;
 
 TCell map[mapW][mapH];
-TColor mapCol[mapW][mapH];
 TCell mapNormal[mapW][mapH];
 GLuint mapInd[mapW - 1][mapH - 1][6];
+TUV mapUV[mapW][mapH];
 
 int mapIndCnt = sizeof(mapInd) / sizeof(GLuint);
 
+
+float plant[] = { -0.5, 0, 0,  0.5, 0, 0,  0.5, 0, 1,  -0.5, 0, 1,
+                    0, -0.5, 0,  0, 0.5, 0,  0, 0.5, 1,  0, -0.5, 1 };
+float plantUV[] = { 0, 1,  1, 1,  1, 0,  0, 0,  0, 1,  1, 1,  1, 0,  0, 0 };
+GLuint plantInd[] = { 0, 1, 2,  2, 3, 0,  4, 5, 6,  6, 7, 4 };
+int plantIndCnt = sizeof(plantInd) / sizeof(GLuint);
+
+
+Texture tex_field, tex_grass, tex_flower1, tex_flower2, 
+tex_mashroom, tex_tree1, tex_tree2;
+Texture* textures[7] = {&tex_field, &tex_grass, &tex_flower1, &tex_flower2,
+&tex_mashroom, &tex_tree1, &tex_tree2 };
+
+enum TexType{
+    field, grass, flower1, flower2,
+    mashroom, tree1, tree2
+};
+TObject* plantMas = NULL;
+int plantCnt = 0;
+
+void LoadTexture(std::string filename, Texture& texture);
+
 // создаем окно
-Window window(sf::VideoMode(1280, 700), "OpenGL", Style::Default, sf::ContextSettings(24, 8, 4, 3, 3));
+Window window(sf::VideoMode(800, 600), "OpenGL", Style::Default, sf::ContextSettings(24, 8, 4, 3, 3));
 
 
 BOOL IsCoordInMap(float x, float y)
@@ -92,18 +125,36 @@ float MapGetHeight(float x, float y)
 }
 void MapInit()
 {
+    glEnable(GL_LIGHTING);
+    glEnable(GL_LIGHT0);
+    glEnable(GL_COLOR_MATERIAL);
+    glEnable(GL_NORMALIZE);
+
+    LoadTexture("pole.png", tex_field);
+    LoadTexture("trava.png", tex_grass);
+    LoadTexture("flower.png", tex_flower1);
+    LoadTexture("flower2.png", tex_flower2);
+    LoadTexture("grib.png", tex_mashroom);
+    LoadTexture("tree.png", tex_tree1);
+    LoadTexture("tree2.png", tex_tree2);
+    
+    glEnable(GL_ALPHA_TEST);
+    glAlphaFunc(GL_GREATER, 0.99);
+
+    tex_field.setRepeated(true);
+    /*texcat.setSmooth(true);*/
+
     for (int i = 0; i < mapW; ++i)
     {
         for (int j = 0; j < mapH; ++j)
         {
-            float dc = (rand() % 20) * 0.01;
-            mapCol[i][j].r = 0.31 + dc;
-            mapCol[i][j].g = 0.5 + dc;
-            mapCol[i][j].b = 0.13 + dc;
-
             map[i][j].x = i;
             map[i][j].y = j;
             map[i][j].z = (rand() % 10) * 0.05;
+
+            mapUV[i][j].u = i;
+            mapUV[i][j].v = j;
+
         }
     }
     for (int i = 0; i < mapW - 1; ++i)
@@ -133,6 +184,36 @@ void MapInit()
             CalcNormals(map[i][j], map[i + 1][j], map[i][j + 1], &mapNormal[i][j]);
         }
     }
+
+
+    int travaN = 2000;
+    int gribN = 30;
+    int treeN = 40;
+    plantCnt = travaN+ gribN+ treeN;
+    plantMas = new TObject[plantCnt];
+    for (int i = 0; i < plantCnt; ++i)
+    {
+        if (i < travaN)
+        {
+            plantMas[i].type = rand() % 100 != 0 ? grass :
+                (rand() % 2 == 0 ? flower1 : flower2);
+            plantMas[i].scale = 0.7 + (rand() % 5) * 0.1;
+        }
+        else if(i<(travaN+gribN)) 
+        {
+            plantMas[i].type = mashroom;
+            plantMas[i].scale = 0.2 + (rand() % 10) * 0.01;
+        }
+        else
+        {
+            plantMas[i].type = rand() % 2 == 0 ? tree1 : tree2;
+            plantMas[i].scale = 4 + (rand() % 14);
+        }
+        plantMas[i].x = rand() % mapW;
+        plantMas[i].y = rand() % mapH;
+        plantMas[i].z = MapGetHeight(plantMas[i].x, plantMas[i].y);
+
+    }
 }
 
 void UpdatePosition()
@@ -141,15 +222,14 @@ void UpdatePosition()
 }
 void MapShow()
 {
-    glEnable(GL_LIGHTING);
-    glEnable(GL_LIGHT0);
-    glEnable(GL_COLOR_MATERIAL);
-    glEnable(GL_NORMALIZE);
+    
 
     // очищаем буферы
     glClearColor(0.0f, 1.0f, 0.7f, 0.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+
+    glEnable(GL_TEXTURE_2D);
 
     glPushMatrix();
 
@@ -160,21 +240,52 @@ void MapShow()
         glLightfv(GL_LIGHT0, GL_POSITION, position);
 
         glEnableClientState(GL_VERTEX_ARRAY);
-        glEnableClientState(GL_COLOR_ARRAY);
+        glEnableClientState(GL_TEXTURE_COORD_ARRAY);
         glEnableClientState(GL_NORMAL_ARRAY);
             glVertexPointer(3, GL_FLOAT, 0, map);
-            glColorPointer(3, GL_FLOAT, 0, mapCol);
+            glTexCoordPointer(2, GL_FLOAT, 0, mapUV);
+            glColor3f(0.7, 0.7, 0.7);
             glNormalPointer(GL_FLOAT, 0, mapNormal);
+            Texture::bind(&tex_field);
             glDrawElements(GL_TRIANGLES, mapIndCnt, GL_UNSIGNED_INT, mapInd);
         glDisableClientState(GL_VERTEX_ARRAY);
-        glDisableClientState(GL_COLOR_ARRAY);
+        glDisableClientState(GL_TEXTURE_COORD_ARRAY);
         glDisableClientState(GL_NORMAL_ARRAY);
+
+
+        glEnableClientState(GL_VERTEX_ARRAY);
+        glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+        
+            glVertexPointer(3, GL_FLOAT, 0, plant);
+            glTexCoordPointer(2, GL_FLOAT, 0, plantUV);
+            glColor3f(0.7, 0.7, 0.7);
+            glNormal3f(0, 0, 1);
+            for (int i = 0; i < plantCnt; ++i)
+            {
+                Texture::bind(textures[plantMas[i].type]);
+                glPushMatrix();
+                    glTranslatef(plantMas[i].x, plantMas[i].y, plantMas[i].z);
+                    glScalef(plantMas[i].scale, plantMas[i].scale, plantMas[i].scale);
+                    glDrawElements(GL_TRIANGLES, plantIndCnt, GL_UNSIGNED_INT, plantInd);
+                glPopMatrix();
+            }
+            
+        glDisableClientState(GL_VERTEX_ARRAY);
+        glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+        
 
     glPopMatrix();
 
 
 }
-
+void LoadTexture(std::string filename, Texture& texture)
+{
+    if (!texture.loadFromFile(filename))
+    {
+        std::cout << "Texture didn't load!";
+    }
+    
+}
 //void ShowWorld()
 //{
 //    glEnableClientState(GL_VERTEX_ARRAY);
