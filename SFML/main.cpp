@@ -7,18 +7,18 @@
 #include <math.h>
 using namespace sf;
 
-//float theta = 0.0f;
+enum TexType
+{
+    field, grass, flower1, flower2,
+    mashroom, ree1, tree2
+};
 float vert[] = { 1,1,0,  1,-1,0,  -1,-1,0, -1,1,0 };//плоскость пола
 
-extern SCamera camera;// :)
+Camera camera(0, 0, 1.7, 0, 0);
 
 struct TCell
 {
     float x, y, z;
-};
-struct TColor
-{
-    float r, g, b;
 };
 struct TUV
 {
@@ -46,8 +46,7 @@ int mapIndCnt = sizeof(mapInd) / sizeof(GLuint);
 float plant[] = { -0.5, 0, 0,  0.5, 0, 0,  0.5, 0, 1,  -0.5, 0, 1,
                     0, -0.5, 0,  0, 0.5, 0,  0, 0.5, 1,  0, -0.5, 1 };
 float plantUV[] = { 0, 1,  1, 1,  1, 0,  0, 0,  0, 1,  1, 1,  1, 0,  0, 0 };
-GLuint plantInd[] = { 0, 1, 2,  2, 3, 0,  4, 5, 6,  6, 7, 4 };
-int plantIndCnt = sizeof(plantInd) / sizeof(GLuint);
+
 
 
 Texture tex_field, tex_grass, tex_flower1, tex_flower2, 
@@ -55,10 +54,7 @@ tex_mashroom, tex_tree1, tex_tree2;
 Texture* textures[7] = {&tex_field, &tex_grass, &tex_flower1, &tex_flower2,
 &tex_mashroom, &tex_tree1, &tex_tree2 };
 
-enum TexType{
-    field, grass, flower1, flower2,
-    mashroom, tree1, tree2
-};
+
 TObject* plantMas = NULL;
 int plantCnt = 0;
 
@@ -233,7 +229,7 @@ void MapShow()
 
     glPushMatrix();
 
-        PlayerMove(window);
+        camera.Move(window);
         UpdatePosition();
 
         GLfloat position[] = { 1,0,2,0 };
@@ -262,6 +258,7 @@ void MapShow()
             glNormal3f(0, 0, 1);
             for (int i = 0; i < plantCnt; ++i)
             {
+
                 Texture::bind(textures[plantMas[i].type]);
                 glPushMatrix();
                     glTranslatef(plantMas[i].x, plantMas[i].y, plantMas[i].z);
@@ -332,7 +329,7 @@ int main()
 
     MapInit();
 
-    WndResize(window.getSize().x, window.getSize().y);
+    camera.WndResize(window.getSize().x, window.getSize().y);
 
     while (running)
     {
@@ -349,7 +346,7 @@ int main()
             else if (event.type == sf::Event::Resized)
             {
                 // применяем область просмотра, когда изменены размеры окна
-                WndResize(event.size.width, event.size.height);
+                camera.WndResize(event.size.width, event.size.height);
             }
         }
 
