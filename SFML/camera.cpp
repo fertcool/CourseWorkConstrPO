@@ -1,4 +1,6 @@
+
 #include "camera.h"
+#include "map.h"
 
 #include <iostream>
 #include <SFML/Graphics.hpp>
@@ -94,4 +96,8 @@ void Camera::CameraMoveDirection()
         x += sin(Angle) * speed;
         y += cos(Angle) * speed;
     }
+}
+void Camera::UpdatePosition(Map* map)
+{
+    z = map->MapGetHeight(x, y) + 1.7;
 }

@@ -1,5 +1,7 @@
 #pragma once
+
 using namespace sf;
+
 class TObject
 {
 public:

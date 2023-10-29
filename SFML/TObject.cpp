@@ -1,12 +1,8 @@
 #include "TObject.h"
 
-#include <iostream>
 #include <SFML/Graphics.hpp>
 #include <SFML/OpenGL.hpp>
 #include <GL/glu.h>
-#define _USE_MATH_DEFINES
-#include <math.h>
-
 using namespace sf;
 
 TObject::TObject():x(0), y(0), z(0), scale(0), texture(nullptr) {};
