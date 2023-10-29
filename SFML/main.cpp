@@ -1,4 +1,6 @@
 #include "camera.h"
+#include "structs.h"
+
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include <SFML/OpenGL.hpp>
@@ -7,30 +9,14 @@
 #include <math.h>
 using namespace sf;
 
-enum TexType
-{
-    field, grass, flower1, flower2,
-    mashroom, ree1, tree2
-};
-float vert[] = { 1,1,0,  1,-1,0,  -1,-1,0, -1,1,0 };//плоскость пола
+
+
 
 Camera camera(0, 0, 1.7, 0, 0);
 
-struct TCell
-{
-    float x, y, z;
-};
-struct TUV
-{
-    float u, v;
-};
 
-struct TObject
-{
-    float x, y, z;
-    int type;
-    float scale;
-};
+
+
 
 const GLuint mapW = 300;
 const GLuint mapH = 300;
@@ -43,9 +29,6 @@ TUV mapUV[mapW][mapH];
 int mapIndCnt = sizeof(mapInd) / sizeof(GLuint);
 
 
-float plant[] = { -0.5, 0, 0,  0.5, 0, 0,  0.5, 0, 1,  -0.5, 0, 1,
-                    0, -0.5, 0,  0, 0.5, 0,  0, 0.5, 1,  0, -0.5, 1 };
-float plantUV[] = { 0, 1,  1, 1,  1, 0,  0, 0,  0, 1,  1, 1,  1, 0,  0, 0 };
 
 
 
@@ -64,7 +47,7 @@ void LoadTexture(std::string filename, Texture& texture);
 Window window(sf::VideoMode(800, 600), "OpenGL", Style::Default, sf::ContextSettings(24, 8, 4, 3, 3));
 
 
-BOOL IsCoordInMap(float x, float y)
+bool IsCoordInMap(float x, float y)
 {
     return (x >= 0) && (x < mapW) && (y >= 0) && (y < mapH);
 }
@@ -248,28 +231,30 @@ void MapShow()
         glDisableClientState(GL_TEXTURE_COORD_ARRAY);
         glDisableClientState(GL_NORMAL_ARRAY);
 
+        for (int i = 0; i < plantCnt; ++i)
+        {
 
-        glEnableClientState(GL_VERTEX_ARRAY);
-        glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-        
-            glVertexPointer(3, GL_FLOAT, 0, plant);
-            glTexCoordPointer(2, GL_FLOAT, 0, plantUV);
-            glColor3f(0.7, 0.7, 0.7);
-            glNormal3f(0, 0, 1);
-            for (int i = 0; i < plantCnt; ++i)
-            {
+            /*glEnableClientState(GL_VERTEX_ARRAY);
+            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
-                Texture::bind(textures[plantMas[i].type]);
-                glPushMatrix();
-                    glTranslatef(plantMas[i].x, plantMas[i].y, plantMas[i].z);
-                    glScalef(plantMas[i].scale, plantMas[i].scale, plantMas[i].scale);
-                    glDrawElements(GL_TRIANGLES, plantIndCnt, GL_UNSIGNED_INT, plantInd);
-                glPopMatrix();
-            }
-            
-        glDisableClientState(GL_VERTEX_ARRAY);
-        glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-        
+                glVertexPointer(3, GL_FLOAT, 0, plant);
+                glTexCoordPointer(2, GL_FLOAT, 0, plantUV);
+                glColor3f(0.7, 0.7, 0.7);
+                glNormal3f(0, 0, 1);
+                for (int i = 0; i < plantCnt; ++i)
+                {
+
+                    Texture::bind(textures[plantMas[i].type]);
+                    glPushMatrix();
+                        glTranslatef(plantMas[i].x, plantMas[i].y, plantMas[i].z);
+                        glScalef(plantMas[i].scale, plantMas[i].scale, plantMas[i].scale);
+                        glDrawElements(GL_TRIANGLES, plantIndCnt, GL_UNSIGNED_INT, plantInd);
+                    glPopMatrix();
+                }
+
+            glDisableClientState(GL_VERTEX_ARRAY);
+            glDisableClientState(GL_TEXTURE_COORD_ARRAY);*/
+        }
 
     glPopMatrix();
 
@@ -316,14 +301,18 @@ int main()
     window.setVerticalSyncEnabled(true);
     
     // загружаем ресурсы, инициализируем состояния OpenGL
+    LoadTexture("pole.png", tex_field);
+    LoadTexture("trava.png", tex_grass);
+    LoadTexture("flower.png", tex_flower1);
+    LoadTexture("flower2.png", tex_flower2);
+    LoadTexture("grib.png", tex_mashroom);
+    LoadTexture("tree.png", tex_tree1);
+    LoadTexture("tree2.png", tex_tree2);
 
     glLoadIdentity();
 
-    /*glOrtho(-2, 2, -2, 2, -1, 1);*/
-    glFrustum(-1, 1, -1, 1, 1, 80);
     
-    // запускаем главный цикл
-    bool running = true;
+    
     glEnable(GL_DEPTH_TEST);
     ShowCursor(FALSE);
 
@@ -331,6 +320,10 @@ int main()
 
     camera.WndResize(window.getSize().x, window.getSize().y);
 
+    
+
+    // запускаем главный цикл
+    bool running = true;
     while (running)
     {
 
