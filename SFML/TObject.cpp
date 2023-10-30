@@ -1,11 +1,11 @@
 #include "TObject.h"
 
-#include <SFML/Graphics.hpp>
-#include <SFML/OpenGL.hpp>
-#include <GL/glu.h>
+
+#include "stdafx.h"
+
 using namespace sf;
 
-TObject::TObject():x(0), y(0), z(0), scale(0), texture(nullptr) {};
+TObject::TObject() :x(0), y(0), z(0), scale(0), texture(nullptr) {};
 TObject::TObject(float x, float y, float z, float scale, Texture* texture) : x(x), y(y), z(z), scale(scale), texture(texture) {};
 
 void TObject::draw()
@@ -18,22 +18,22 @@ void TObject::draw()
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
-		glVertexPointer(3, GL_FLOAT, 0, plant);
-		glTexCoordPointer(2, GL_FLOAT, 0, plantUV);
-		glColor3f(0.7, 0.7, 0.7);
-		glNormal3f(0, 0, 1);
-		Texture::bind(texture);
-		glPushMatrix();
-			glTranslatef(x, y, z);
-			glScalef(scale, scale, scale);
-			glDrawElements(GL_TRIANGLES, plantIndCnt, GL_UNSIGNED_INT, plantInd);
-		glPopMatrix();
+	glVertexPointer(3, GL_FLOAT, 0, plant);
+	glTexCoordPointer(2, GL_FLOAT, 0, plantUV);
+	glColor3f(0.7, 0.7, 0.7);
+	glNormal3f(0, 0, 1);
+	Texture::bind(texture);
+	glPushMatrix();
+	glTranslatef(x, y, z);
+	glScalef(scale, scale, scale);
+	glDrawElements(GL_TRIANGLES, plantIndCnt, GL_UNSIGNED_INT, plantInd);
+	glPopMatrix();
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 }
 
 Grass::Grass(float x, float y, float z, float scale, Texture* texture) :TObject(x, y, z, scale, texture) {};
-Grass::Grass():TObject() {};
+Grass::Grass() :TObject() {};
 
 Flower1::Flower1(float x, float y, float z, float scale, Texture* texture) :TObject(x, y, z, scale, texture) {};
 Flower1::Flower1() :TObject() {};

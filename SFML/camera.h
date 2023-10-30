@@ -1,8 +1,12 @@
-#pragma once
-#include "map.h"
-#include <SFML/Graphics.hpp>
-using namespace sf;
+#ifndef CAMERA_H
+#define CAMERA_H
 
+//#include "Map.h"
+
+#include "stdafx.h"
+
+using namespace sf;
+//class Map;
 class Camera
 {
 public:
@@ -22,4 +26,5 @@ public:
 	void UpdatePosition(Map* map);
 };
 
+#endif // !CAMERA_H
 

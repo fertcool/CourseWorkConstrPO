@@ -1,17 +1,17 @@
 
-#include "map.h"
+#include "Map.h"
 #include "camera.h"
 
 #include <iostream>
-#include <SFML/Graphics.hpp>
-#include <SFML/OpenGL.hpp>
-#include <GL/glu.h>
+
+#include "stdafx.h"
+
 #define _USE_MATH_DEFINES
 #include <math.h>
 
 using namespace sf;
 
-Map::Map(int mapW, int mapH, Texture* texfield)
+Map::Map(int mapW, int mapH, Texture* texfield) :mapW(mapW), mapH(mapH)
 {
     
     Texture tex_grass, tex_flower1, tex_flower2,
@@ -188,17 +188,15 @@ void Map::MapShow(Camera& camera, Window& window)
 
     int mapIndCnt = sizeof(indexes) / sizeof(GLuint);
 
-    // очищаем буферы
-    glClearColor(0.0f, 1.0f, 0.7f, 0.0f);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    
 
 
     glEnable(GL_TEXTURE_2D);
 
-    glPushMatrix();
+    
 
-    camera.Move(window);
-    camera.UpdatePosition(this);
+    /*camera.Move(window);
+    camera.UpdatePosition(this);*/
     
     GLfloat position[] = { 1,0,2,0 };
     glLightfv(GL_LIGHT0, GL_POSITION, position);
@@ -241,7 +239,7 @@ void Map::MapShow(Camera& camera, Window& window)
         glDisableClientState(GL_TEXTURE_COORD_ARRAY);*/
     }
 
-    glPopMatrix();
+    
 
 
 }

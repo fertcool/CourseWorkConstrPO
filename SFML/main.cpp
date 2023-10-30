@@ -1,9 +1,9 @@
 #include "camera.h"
-#include "map.h"
+#include "Map.h"
 
-#include <SFML/Graphics.hpp>
-#include <SFML/OpenGL.hpp>
-#include <GL/glu.h>
+
+#include "stdafx.h"
+
 
 using namespace sf;
 
@@ -79,10 +79,15 @@ int main()
             }
         }
 
+        // очищаем буферы
+        glClearColor(0.0f, 1.0f, 0.7f, 0.0f);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-
-        map.MapShow(camera, window);
-        
+        glPushMatrix();
+            camera.Move(window);
+            camera.UpdatePosition(&map);
+            map.MapShow(camera, window);
+        glPopMatrix();
 
         
 

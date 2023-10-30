@@ -1,11 +1,11 @@
 
 #include "camera.h"
-#include "map.h"
+#include "Map.h"
 
 #include <iostream>
-#include <SFML/Graphics.hpp>
-#include <SFML/OpenGL.hpp>
-#include <GL/glu.h>
+
+#include "stdafx.h"
+
 #define _USE_MATH_DEFINES
 #include <math.h>
 
