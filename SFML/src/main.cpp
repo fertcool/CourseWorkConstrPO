@@ -28,7 +28,7 @@ int main()
     TexM.add("./assets/tree.png");
     TexM.add("./assets/tree2.png");
 
-    Map map(100, 100, TexM);
+    Map map(200, 300, TexM);
 
     Camera::WndResize(window.getSize().x, window.getSize().y);
 

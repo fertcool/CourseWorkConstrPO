@@ -18,22 +18,8 @@ Map::Map(int imapW, int imapH, TextureManager& TexM) :mapW(imapW), mapH(imapH)
     vertexes = new TCell  [mapW*mapH];
     normals = new TCell  [mapW*mapH];
     UV = new TUV [mapW*mapH];
-    /*for (int i = 0; i < mapW; ++i)
-    {
-        vertexes[i] = new TCell[mapH];
-        normals[i]= new TCell[mapH];
-        UV[i] = new TUV[mapH];
-        
-    }*/
     indexes = new GLuint [(mapW - 1) * (mapH-1) * 6];
-    /*for (int i = 0; i < mapW - 1; ++i)
-    {
-        indexes[i] = new GLuint* [mapH - 1];
-        for (int j = 0; j < mapH-1; ++j)
-        {
-            indexes[i][j] = new GLuint[6];
-        }
-    }*/
+    
 
     glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
@@ -52,7 +38,7 @@ Map::Map(int imapW, int imapH, TextureManager& TexM) :mapW(imapW), mapH(imapH)
     {
         for (int j = 0; j < mapH; ++j)
         {
-            vertexes[Access2(i,j)].x = i;
+            vertexes[Access2(i, j)].x = i;
             vertexes[Access2(i, j)].y = j;
             vertexes[Access2(i, j)].z = (rand() % 10) * 0.05;
 
@@ -61,12 +47,13 @@ Map::Map(int imapW, int imapH, TextureManager& TexM) :mapW(imapW), mapH(imapH)
 
         }
     }
+    
     for (int i = 0; i < mapW - 1; ++i)
     {
         int pos = i * mapH;
         for (int j = 0; j < mapH - 1; ++j)
         {
-            indexes[Access3(i,j,0)] = pos;
+            indexes[Access3(i, j, 0)] = pos;
             indexes[Access3(i, j, 1)] = pos + 1;
             indexes[Access3(i, j, 2)] = pos + 1 + mapH;
 
@@ -149,33 +136,7 @@ Map::Map(int imapW, int imapH, TextureManager& TexM) :mapW(imapW), mapH(imapH)
 }
 Map::~Map()
 {
-    /*for (int i = 0; i < mapW; ++i)
-    {
-        delete[] vertexes[i];
-        delete[] normals[i];
-        delete[] UV[i];
-
-    }
-    delete[] vertexes;
-    delete[] normals;
-    delete[] UV;
-    for (int i = 0; i < mapW - 1; ++i)
-    {
-        indexes[i] = new GLuint * [mapH - 1];
-        for (int j = 0; j < mapH - 1; ++j)
-        {
-           delete[] indexes[i][j];
-        }
-        delete[] indexes[i];
-
-    }
-    delete[] indexes;
-
-    for (int i = 0; i < numObj; ++i)
-    {
-        delete objects[i];
-    }
-    delete[] objects;*/
+    
     delete[] vertexes;
     delete[] normals;
     delete[] UV;

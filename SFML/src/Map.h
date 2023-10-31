@@ -1,7 +1,7 @@
 #ifndef MAP_H
 #define MAP_H
 
-#define Access2(i, j) (i) * (mapH - 1) + j
+#define Access2(i, j) (i) * (mapH) + j
 #define Access3(i, j, k) (i) * (mapH - 1) * 6 + (j) * 6 + k
 
 #include "structs.h"
