@@ -14,16 +14,18 @@ class Map
     Texture* texfield;
 
     //матрицы 
-    TCell* vertexes;//2х2
-    TCell* normals;//2x2
-    GLuint* indexes;//3x3
-    TUV* UV;//2x2
+    TCell* vertexes;//2х2 массив вершин
+    TCell* normals;//2x2  массив нормалей
+    GLuint* indexes;//3x3 массив индексов
+    TUV* UV;//2x2 массив вершин для текстур
 
     TObject** objects;//массив указателей на обьекты
     int numObj;
 
     void CalcNormals(TCell a, TCell b, TCell c, TCell* n);
     void MapCreateHill(int posX, int posY, int rad, int height);
+    
+    
 
 public:
 
@@ -33,7 +35,10 @@ public:
     bool IsCoordInMap(float x, float y);
     void MapShow(Window& window);
 
+    static inline int jopa{};
     
 
 };
+
+
 #endif

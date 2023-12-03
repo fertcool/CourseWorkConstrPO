@@ -2,14 +2,15 @@
 #include "Camera.h"
 
 Camera::Camera(float x, float y, float z, float Xrot, float Zrot) :
-    x(x), y(y), z(z), Xrot(Xrot), Zrot(Zrot){};
+    x(x), y(y), z(z), Xrot(Xrot), Zrot(Zrot), OnJump(false), speed(0), speedZ(0), Angle(0) {};
 
 Camera::~Camera() {};
 
 //основная функция движения камеры
 void Camera::Move(Window& window)
 {
-    CameraMoveDirection();
+    if(!OnJump)
+        CameraMoveDirection();
     CameraAutoMoveByMouse(400, 400, 0.2f, window);
     CameraAplly();
 }
@@ -61,23 +62,23 @@ void Camera::CameraAutoMoveByMouse(int conterX, int conterY, float speed, Window
 //ф-я передвижения камеры в пространстве с помощью клавиатуры
 void Camera::CameraMoveDirection()
 {
-    float Angle = -Zrot / 180 * M_PI;
-    float speed = 0;
+    Angle = -Zrot / 180 * M_PI;
+    speed = 0;
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
     {
-        speed = 0.5;
+        speed = 0.3;
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
     {
-        speed = -0.5;
+        speed = -0.3;
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
     {
-        speed = 0.5; Angle -= M_PI_2;
+        speed = 0.3; Angle -= M_PI_2;
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
     {
-        speed = 0.5; Angle += M_PI_2;
+        speed = 0.3; Angle += M_PI_2;
     }
     if (speed != 0)
     {
@@ -85,7 +86,54 @@ void Camera::CameraMoveDirection()
         y += cos(Angle) * speed;
     }
 }
+void Camera::CameraJump(Map* map)
+{
+    const int speed_coef = 25;
+    const int start_sZ = 10;
+
+    static Clock clock;
+    static bool firstin = true;
+
+    if (firstin)
+    {
+        speed *= speed_coef;
+
+        speedZ = speed  > 0 ? speed * 2 : start_sZ;
+        clock.restart();
+        firstin = false;
+    };
+
+    if (!Collision(map) || speedZ > 0)
+    {
+        float deltaT = clock.restart().asSeconds();
+        x += sin(Angle) * deltaT * speed;
+        y += cos(Angle) * deltaT * speed;
+        z += deltaT * speedZ;
+
+        speedZ -=  deltaT * 9.78 * 2;
+        
+    }
+    else
+    {
+        firstin = true;
+        OnJump = false;
+    }
+    
+}
+bool Camera::Collision(Map* map)
+{
+    if (abs(map->MapGetHeight(x, y) - z) < 1.71f)
+        return true;
+    return false;
+}
 void Camera::UpdatePosition(Map* map)
 {
-    z = map->MapGetHeight(x, y) + 1.7;
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+    {
+        OnJump = true;
+    }
+    if (OnJump)
+        CameraJump(map);
+    else
+        z = map->MapGetHeight(x, y) + 1.7f;
 }

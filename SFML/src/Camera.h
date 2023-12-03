@@ -10,6 +10,9 @@ public:
 
 	float x, y, z;
 	float Xrot, Zrot;
+	bool OnJump;
+	float speed, speedZ;
+	float Angle;
 
 	Camera(float x, float y, float z, float Xrot, float Zrot);
 	~Camera();
@@ -19,7 +22,8 @@ public:
 	void Move(Window& window);
 	void CameraAutoMoveByMouse(int conterX, int conterY, float speed, Window& window);
 	void CameraMoveDirection();
-
+	void CameraJump(Map* map);
+	bool Collision(Map* map);
 	void UpdatePosition(Map* map);
 };
 

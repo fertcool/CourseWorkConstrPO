@@ -5,18 +5,19 @@
 
 int main()
 {
+
     Camera camera(0, 0, 1.7, 0, 0);
 
     // создаем окно
-    Window window(sf::VideoMode(800, 600), "OpenGL", Style::Default, sf::ContextSettings(24, 8, 4, 3, 3));
+    Window window(sf::VideoMode(1280, 720), "OpenGL", Style::Default, sf::ContextSettings(24, 8, 4, 3, 3));
 
     window.setVerticalSyncEnabled(true);
-    
+   
     // загружаем ресурсы, инициализируем состояния OpenGL
     glLoadIdentity();
 
     glEnable(GL_DEPTH_TEST);
-    /*ShowCursor(FALSE);*/
+    ShowCursor(FALSE);
 
     TextureManager TexM;
 
@@ -28,8 +29,8 @@ int main()
     TexM.add("./assets/tree.png");
     TexM.add("./assets/tree2.png");
 
-    Map map(200, 300, TexM);
-
+    Map map(200, 200, TexM);
+    
     Camera::WndResize(window.getSize().x, window.getSize().y);
 
     
@@ -77,3 +78,4 @@ int main()
 
     return 0;
 }
+

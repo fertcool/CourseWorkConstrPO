@@ -32,7 +32,7 @@ Map::Map(int imapW, int imapH, TextureManager& TexM) :mapW(imapW), mapH(imapH)
     glAlphaFunc(GL_GREATER, 0.99);
 
     texfield->setRepeated(true);
-    /*texcat.setSmooth(true);*/
+    
 
     for (int i = 0; i < mapW; ++i)
     {
@@ -40,7 +40,7 @@ Map::Map(int imapW, int imapH, TextureManager& TexM) :mapW(imapW), mapH(imapH)
         {
             vertexes[Access2(i, j)].x = i;
             vertexes[Access2(i, j)].y = j;
-            vertexes[Access2(i, j)].z = (rand() % 10) * 0.05;
+            vertexes[Access2(i, j)].z = (rand() % 10) * 0.02;
 
             UV[Access2(i, j)].u = i;
             UV[Access2(i, j)].v = j;
@@ -64,7 +64,7 @@ Map::Map(int imapW, int imapH, TextureManager& TexM) :mapW(imapW), mapH(imapH)
             ++pos;
         }
     }
-    for (int i = 0; i < 10; ++i)
+    for (int i = 0; i < 100; ++i)
     {
         MapCreateHill(rand() % mapW, rand() % mapH, rand() % 50, rand() % 10);
     }
@@ -77,9 +77,10 @@ Map::Map(int imapW, int imapH, TextureManager& TexM) :mapW(imapW), mapH(imapH)
     }
 
 
-    int travaN = 2000;
-    int gribN = 30;
-    int treeN = 40;
+    int travaN = int(0.2*mapH*mapW);
+    int gribN = int(0.003 * mapH * mapW);
+    int treeN = int(0.004 * mapH * mapW);
+
     numObj = travaN + gribN + treeN;
 
     objects = new TObject*[numObj];
@@ -220,7 +221,12 @@ float Map::MapGetHeight(float x, float y)
     if (!IsCoordInMap(x, y)) return 0;
     int cX = (int)x;
     int cY = (int)y;
-    
+
+    if (cX == mapW - 1)
+        --cX;
+    if (cY == mapH - 1)
+        --cY;
+
     float h1 = ((1 - (x - cX)) * vertexes[Access2(cX, cY)].z + (x - cX) * vertexes[Access2(cX + 1, cY)].z);
     float h2 = ((1 - (x - cX)) * vertexes[Access2(cX, cY + 1)].z + (x - cX) * vertexes[Access2(cX + 1, cY + 1)].z);
     return (1 - (y - cY)) * h1 + (y - cY) * h2;
