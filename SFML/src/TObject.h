@@ -1,3 +1,4 @@
+//заголовок класса обьектов на карте
 #ifndef TOBJECT_H
 #define TOBJECT_H
 
@@ -8,13 +9,16 @@ class TObject
 public:
 	TObject();
 	TObject(float x, float y, float z, float scale, Texture* texture);
-	float x, y, z;
-	float scale;
-	sf::Texture* texture;
+	float x, y, z;//координаты расположения 
+	float scale;//масштаб
+	Texture* texture;//текстура
+
+	//ф-я отрисовки
 	virtual void draw();
 };
-
-class Grass : public TObject {
+//классы обьектов 
+class Grass : public TObject 
+{
 public: Grass(float x, float y, float z, float scale, Texture* texture); Grass();
 };
 class Flower1 :public TObject {

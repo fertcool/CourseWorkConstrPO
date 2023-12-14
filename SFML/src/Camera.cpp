@@ -2,20 +2,20 @@
 #include "Camera.h"
 
 Camera::Camera(float x, float y, float z, float Xrot, float Zrot) :
-    x(x), y(y), z(z), Xrot(Xrot), Zrot(Zrot), OnJump(false), speed(0), speedZ(0), Angle(0) {};
+    x(x), y(y), z(z), Xrot(Xrot), Zrot(Zrot), OnJump(false), speed(0), speedZ(0) {};
 
 Camera::~Camera() {};
 
 //основная функция движения камеры
 void Camera::Move(Window& window)
 {
-    if(!OnJump)
+    if(!OnJump)//если не прыгаем - перемещаемся (клавиатура)
         CameraMoveDirection();
-    CameraAutoMoveByMouse(400, 400, 0.2f, window);
-    CameraAplly();
+    CameraAutoMoveByMouse(400, 400, 0.2f, window);//поворот камеры (мышкой)
+    CameraAplly();//применяем
 }
 
-//ф-я адаптации камеры при изменении размера окна
+//ф-я адаптации камеры (перспективы) при изменении размера окна
 void Camera::WndResize(int x, int y)
 {
     glViewport(0, 0, x, y);
@@ -24,7 +24,7 @@ void Camera::WndResize(int x, int y)
 
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    glFrustum(-k * sz, k * sz, -sz, sz, sz * 2, 100);
+    glFrustum(-k * sz, k * sz, -sz, sz, sz * 2, 100);//100 - дальность прорисовки
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 }
@@ -52,17 +52,19 @@ void Camera::CameraRotation(float xAngle, float zAngle)
 void Camera::CameraAutoMoveByMouse(int conterX, int conterY, float speed, Window& window)
 {
     
-    if (!window.hasFocus()) return;
+    if (!window.hasFocus()) return;//если не в фокусе - не двигаем
     POINT cur = { Mouse::getPosition().x, Mouse::getPosition().y };
     POINT base = { conterX, conterY };
-    CameraRotation((base.y - cur.y) * speed, (base.x - cur.x) * speed);
+    CameraRotation((base.y - cur.y) * speed, (base.x - cur.x) * speed);//движение относительно базовых координат
     Mouse::setPosition(Vector2i(base.x, base.y));
+    
 }
 
 //ф-я передвижения камеры в пространстве с помощью клавиатуры
 void Camera::CameraMoveDirection()
 {
-    Angle = -Zrot / 180 * M_PI;
+    Angle = -Zrot / 180 * M_PI;//перевод в радианы
+
     speed = 0;
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
     {
@@ -80,21 +82,24 @@ void Camera::CameraMoveDirection()
     {
         speed = 0.3; Angle += M_PI_2;
     }
-    if (speed != 0)
+    if (speed != 0)//перемещение
     {
         x += sin(Angle) * speed;
         y += cos(Angle) * speed;
     }
 }
+//ф-я обновления кадра прыжка
 void Camera::CameraJump(Map* map)
 {
-    const int speed_coef = 25;
-    const int start_sZ = 10;
+    const float speed_coef = 25;
+    const float start_sZ = 10;
+    const float fall_coef = 2;
 
     static Clock clock;
     static bool firstin = true;
-
-    if (firstin)
+    
+   
+    if (firstin)//точка 1 входа
     {
         speed *= speed_coef;
 
@@ -103,37 +108,39 @@ void Camera::CameraJump(Map* map)
         firstin = false;
     };
 
-    if (!Collision(map) || speedZ > 0)
+    if (!Collision(map) || speedZ > 0)//если не столкнулись с картой или прыжок не окончен
     {
-        float deltaT = clock.restart().asSeconds();
+        float deltaT = clock.restart().asSeconds();//вычисление разности времени(в сек.)
         x += sin(Angle) * deltaT * speed;
-        y += cos(Angle) * deltaT * speed;
+        y += cos(Angle) * deltaT * speed;//обновляем координаты
         z += deltaT * speedZ;
 
-        speedZ -=  deltaT * 9.78 * 2;
+        speedZ -=  deltaT * 9.78 * fall_coef;//изменение скорости по Z
         
     }
-    else
+    else //конец прыжка
     {
         firstin = true;
         OnJump = false;
     }
     
 }
+//ф-я проверки столкновения с картой
 bool Camera::Collision(Map* map)
 {
     if (abs(map->MapGetHeight(x, y) - z) < 1.71f)
         return true;
     return false;
 }
+//ф-я обновления позиции игрока
 void Camera::UpdatePosition(Map* map)
 {
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))//начало прыжка
     {
         OnJump = true;
     }
-    if (OnJump)
+    if (OnJump)//прыжок
         CameraJump(map);
-    else
-        z = map->MapGetHeight(x, y) + 1.7f;
+    else //просто перемещение
+        z = map->MapGetHeight(x, y) + 1.7f;//1.7 - высота персонажа
 }

@@ -6,25 +6,25 @@ TObject::TObject(float x, float y, float z, float scale, Texture* texture) :
 	x(x), y(y), z(z), scale(scale), texture(texture)
 {};
 
+//базовая ф-я отрисовки
 void TObject::draw()
 {
 	float plant[] = { -0.5, 0, 0,  0.5, 0, 0,  0.5, 0, 1,  -0.5, 0, 1,
-					0, -0.5, 0,  0, 0.5, 0,  0, 0.5, 1,  0, -0.5, 1 };
-	float plantUV[] = { 0, 1,  1, 1,  1, 0,  0, 0,  0, 1,  1, 1,  1, 0,  0, 0 };
-	GLuint plantInd[] = { 0, 1, 2,  2, 3, 0,  4, 5, 6,  6, 7, 4 };
-	int plantIndCnt = sizeof(plantInd) / sizeof(GLuint);
+					0, -0.5, 0,  0, 0.5, 0,  0, 0.5, 1,  0, -0.5, 1 };//массив вершин (две перекрестные плоскости)
+	float plantUV[] = { 0, 1,  1, 1,  1, 0,  0, 0,  0, 1,  1, 1,  1, 0,  0, 0 };//массив вершин текстур
+	GLuint plantInd[] = { 0, 1, 2,  2, 3, 0,  4, 5, 6,  6, 7, 4 };//массив индексов
+	int plantIndCnt = sizeof(plantInd) / sizeof(GLuint);//количество индексов
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
-	glVertexPointer(3, GL_FLOAT, 0, plant);
-	glTexCoordPointer(2, GL_FLOAT, 0, plantUV);
-	glColor3f(0.7, 0.7, 0.7);
-	glNormal3f(0, 0, 1);
-	Texture::bind(texture);
+	glVertexPointer(3, GL_FLOAT, 0, plant);//загрузка вершин
+	glTexCoordPointer(2, GL_FLOAT, 0, plantUV);//загрузка координат текстур
+	glNormal3f(0, 0, 1);//нормаль
+	Texture::bind(texture);//связб с текстурой
 	glPushMatrix();
-		glTranslatef(x, y, z);
-		glScalef(scale, scale, scale);
-		glDrawElements(GL_TRIANGLES, plantIndCnt, GL_UNSIGNED_INT, plantInd);
+		glTranslatef(x, y, z);//перемещение по заданным координатам
+		glScalef(scale, scale, scale);//масштабирование
+		glDrawElements(GL_TRIANGLES, plantIndCnt, GL_UNSIGNED_INT, plantInd);//отрисовка
 	glPopMatrix();
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);

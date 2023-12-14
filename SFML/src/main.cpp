@@ -5,9 +5,6 @@
 
 int main()
 {
-
-    Camera camera(0, 0, 1.7, 0, 0);
-
     // создаем окно
     Window window(sf::VideoMode(1280, 720), "OpenGL", Style::Default, sf::ContextSettings(24, 8, 4, 3, 3));
 
@@ -15,12 +12,15 @@ int main()
    
     // загружаем ресурсы, инициализируем состояния OpenGL
     glLoadIdentity();
-
     glEnable(GL_DEPTH_TEST);
     ShowCursor(FALSE);
 
-    TextureManager TexM;
+    //создаем камеру
+    Camera camera(0, 0, 1.7, 0, 0);
 
+    //создаем менеджер текстур
+    TextureManager TexM;
+    //добавляем текстуры
     TexM.add("./assets/pole.png");
     TexM.add("./assets/trava.png");
     TexM.add("./assets/flower.png");
@@ -29,7 +29,8 @@ int main()
     TexM.add("./assets/tree.png");
     TexM.add("./assets/tree2.png");
 
-    Map map(200, 200, TexM);
+    //создаем карту
+    Map map(10, 10000, TexM);
     
     Camera::WndResize(window.getSize().x, window.getSize().y);
 
@@ -59,6 +60,7 @@ int main()
         glClearColor(0.0f, 1.0f, 0.7f, 0.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+        //отрисовка мира в движении
         glPushMatrix();
             camera.Move(window);
             camera.UpdatePosition(&map);
@@ -66,8 +68,6 @@ int main()
         glPopMatrix();
 
         
-        
-
         // конец текущего кадра (меняем местами передний и задний буферы)
         window.display();
 
