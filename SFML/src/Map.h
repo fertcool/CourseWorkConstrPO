@@ -12,6 +12,8 @@
 class Map
 {
     int mapW, mapH;//размеры карты
+    int HillsCount;//количество холмов
+    float VegDensity;//плотность растительности
     Texture* texfield;//текстура карты
 
     //матрицы 
@@ -28,7 +30,7 @@ class Map
 
 public:
 
-    Map(int imapW, int imapH, TextureManager& TexM);
+    Map(int imapW, int imapH, int iHillsCount, float iVegDensity, TextureManager& TexM);
     ~Map();
     float MapGetHeight(float x, float y);//получить высоту по координатам x и y
     bool IsCoordInMap(float x, float y);//проверка существования координат x и y

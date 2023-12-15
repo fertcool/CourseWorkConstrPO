@@ -1,12 +1,12 @@
 #include "stdafx.h"
 #include "Camera.h"
 #include "TextureManager.h"
-
+#include "ReadJson.h"
 
 int main()
 {
     // создаем окно
-    Window window(sf::VideoMode(1280, 720), "OpenGL", Style::Default, sf::ContextSettings(24, 8, 4, 3, 3));
+    Window window(sf::VideoMode(1280, 720), "OpenGL", Style::Default, sf::ContextSettings(24, 8, 16, 3, 3));
 
     window.setVerticalSyncEnabled(true);
    
@@ -29,8 +29,15 @@ int main()
     TexM.add("./assets/tree.png");
     TexM.add("./assets/tree2.png");
 
+    int mapH(0);
+    int mapW(0);
+    int HillsCount(0);
+    float VegDensity(0);
+
+    ReadJson(&mapW, &mapH, &HillsCount, &VegDensity);
+
     //создаем карту
-    Map map(10, 10000, TexM);
+    Map map(mapW, mapH, HillsCount, VegDensity, TexM);
     
     Camera::WndResize(window.getSize().x, window.getSize().y);
 

@@ -1,11 +1,13 @@
 #include "stdafx.h"
 #include "Map.h"
 
-Map::Map(int imapW, int imapH, TextureManager& TexM) :mapW(imapW), mapH(imapH)
+Map::Map(int imapW, int imapH, int iHillsCount, float iVegDensity, TextureManager& TexM) :mapW(imapW), mapH(imapH)
 {
-    //инициализация размеров и текстур
+    //инициализация переменных
     mapH = imapH;
     mapW = imapW;
+    HillsCount = iHillsCount;
+    VegDensity = iVegDensity;
     texfield = TexM.get("./assets/pole.png");
     Texture* tex_grass = TexM.get("./assets/trava.png");
     Texture* tex_flower1 = TexM.get("./assets/flower.png");
@@ -71,16 +73,16 @@ Map::Map(int imapW, int imapH, TextureManager& TexM) :mapW(imapW), mapH(imapH)
     }
 
     //создание холмов
-    for (int i = 0; i < 10; ++i)
+    for (int i = 0; i < HillsCount; ++i)
     {
         MapCreateHill(rand() % mapW, rand() % mapH, rand() % 50, rand() % 10);
     }
 
 
     
-    int travaN = int(0.2   * mapH * mapW);//количество травы и цветов
-    int gribN =  int(0.003 * mapH * mapW);//количество грибов
-    int treeN =  int(0.004 * mapH * mapW);//количество деревьев
+    int travaN = int(VegDensity * 0.2   * mapH * mapW);//количество травы и цветов
+    int gribN =  int(VegDensity * 0.003 * mapH * mapW);//количество грибов
+    int treeN =  int(VegDensity * 0.004 * mapH * mapW);//количество деревьев
 
     numObj = travaN + gribN + treeN;//количество всех обьектов
 

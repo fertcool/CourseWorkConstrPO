@@ -76,6 +76,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -90,6 +91,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -142,6 +144,7 @@
     <ClCompile Include="src\Camera.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Map.cpp" />
+    <ClCompile Include="src\ReadJson.cpp" />
     <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
@@ -150,15 +153,63 @@
     <ClCompile Include="src\TObject.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClassDiagram.cd" />
-  </ItemGroup>
-  <ItemGroup>
+    <ClInclude Include="Json\include\nlohmann\adl_serializer.hpp" />
+    <ClInclude Include="Json\include\nlohmann\byte_container_with_subtype.hpp" />
+    <ClInclude Include="Json\include\nlohmann\detail\abi_macros.hpp" />
+    <ClInclude Include="Json\include\nlohmann\detail\conversions\from_json.hpp" />
+    <ClInclude Include="Json\include\nlohmann\detail\conversions\to_chars.hpp" />
+    <ClInclude Include="Json\include\nlohmann\detail\conversions\to_json.hpp" />
+    <ClInclude Include="Json\include\nlohmann\detail\exceptions.hpp" />
+    <ClInclude Include="Json\include\nlohmann\detail\hash.hpp" />
+    <ClInclude Include="Json\include\nlohmann\detail\input\binary_reader.hpp" />
+    <ClInclude Include="Json\include\nlohmann\detail\input\input_adapters.hpp" />
+    <ClInclude Include="Json\include\nlohmann\detail\input\json_sax.hpp" />
+    <ClInclude Include="Json\include\nlohmann\detail\input\lexer.hpp" />
+    <ClInclude Include="Json\include\nlohmann\detail\input\parser.hpp" />
+    <ClInclude Include="Json\include\nlohmann\detail\input\position_t.hpp" />
+    <ClInclude Include="Json\include\nlohmann\detail\iterators\internal_iterator.hpp" />
+    <ClInclude Include="Json\include\nlohmann\detail\iterators\iteration_proxy.hpp" />
+    <ClInclude Include="Json\include\nlohmann\detail\iterators\iterator_traits.hpp" />
+    <ClInclude Include="Json\include\nlohmann\detail\iterators\iter_impl.hpp" />
+    <ClInclude Include="Json\include\nlohmann\detail\iterators\json_reverse_iterator.hpp" />
+    <ClInclude Include="Json\include\nlohmann\detail\iterators\primitive_iterator.hpp" />
+    <ClInclude Include="Json\include\nlohmann\detail\json_custom_base_class.hpp" />
+    <ClInclude Include="Json\include\nlohmann\detail\json_pointer.hpp" />
+    <ClInclude Include="Json\include\nlohmann\detail\json_ref.hpp" />
+    <ClInclude Include="Json\include\nlohmann\detail\macro_scope.hpp" />
+    <ClInclude Include="Json\include\nlohmann\detail\macro_unscope.hpp" />
+    <ClInclude Include="Json\include\nlohmann\detail\meta\call_std\begin.hpp" />
+    <ClInclude Include="Json\include\nlohmann\detail\meta\call_std\end.hpp" />
+    <ClInclude Include="Json\include\nlohmann\detail\meta\cpp_future.hpp" />
+    <ClInclude Include="Json\include\nlohmann\detail\meta\detected.hpp" />
+    <ClInclude Include="Json\include\nlohmann\detail\meta\identity_tag.hpp" />
+    <ClInclude Include="Json\include\nlohmann\detail\meta\is_sax.hpp" />
+    <ClInclude Include="Json\include\nlohmann\detail\meta\std_fs.hpp" />
+    <ClInclude Include="Json\include\nlohmann\detail\meta\type_traits.hpp" />
+    <ClInclude Include="Json\include\nlohmann\detail\meta\void_t.hpp" />
+    <ClInclude Include="Json\include\nlohmann\detail\output\binary_writer.hpp" />
+    <ClInclude Include="Json\include\nlohmann\detail\output\output_adapters.hpp" />
+    <ClInclude Include="Json\include\nlohmann\detail\output\serializer.hpp" />
+    <ClInclude Include="Json\include\nlohmann\detail\string_concat.hpp" />
+    <ClInclude Include="Json\include\nlohmann\detail\string_escape.hpp" />
+    <ClInclude Include="Json\include\nlohmann\detail\value_t.hpp" />
+    <ClInclude Include="Json\include\nlohmann\json.hpp" />
+    <ClInclude Include="Json\include\nlohmann\json_fwd.hpp" />
+    <ClInclude Include="Json\include\nlohmann\ordered_map.hpp" />
+    <ClInclude Include="Json\include\nlohmann\thirdparty\hedley\hedley.hpp" />
+    <ClInclude Include="Json\include\nlohmann\thirdparty\hedley\hedley_undef.hpp" />
+    <ClInclude Include="Json\single_include\nlohmann\json.hpp" />
+    <ClInclude Include="Json\single_include\nlohmann\json_fwd.hpp" />
     <ClInclude Include="src\Camera.h" />
     <ClInclude Include="src\Map.h" />
+    <ClInclude Include="src\ReadJson.h" />
     <ClInclude Include="src\stdafx.h" />
     <ClInclude Include="src\structs.h" />
     <ClInclude Include="src\TextureManager.h" />
     <ClInclude Include="src\TObject.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Settings.json" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />
