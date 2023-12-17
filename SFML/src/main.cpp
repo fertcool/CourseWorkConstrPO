@@ -1,7 +1,7 @@
-#include "stdafx.h"
-#include "Camera.h"
-#include "TextureManager.h"
-#include "ReadJson.h"
+#include "Headers/stdafx.h"
+#include "Headers/Camera.h"
+#include "Headers/TextureManager.h"
+#include "Headers/ReadJson.h"
 
 int main()
 {

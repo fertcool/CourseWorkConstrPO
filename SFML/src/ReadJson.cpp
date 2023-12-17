@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "Headers/stdafx.h"
 #include <fstream>
 #include <string>
 void ReadJson(int* imapW, int* imapH, int* iHillsCount, float* iVegDensity)

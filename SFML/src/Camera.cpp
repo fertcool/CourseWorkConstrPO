@@ -1,5 +1,5 @@
-#include "stdafx.h"
-#include "Camera.h"
+#include "Headers/stdafx.h"
+#include "Headers/Camera.h"
 
 Camera::Camera(float x, float y, float z, float Xrot, float Zrot) :
     x(x), y(y), z(z), Xrot(Xrot), Zrot(Zrot), OnJump(false), speed(0), speedZ(0) {};

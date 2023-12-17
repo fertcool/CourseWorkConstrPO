@@ -114,7 +114,7 @@
       <AdditionalIncludeDirectories>C:\Users\fertc\OneDrive\Документы\Visual Studio 2022\SFML\SFML-2.6.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>Headers/stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -134,7 +134,7 @@
       <AdditionalIncludeDirectories>C:\Users\fertc\OneDrive\Документы\Visual Studio 2022\SFML\SFML-2.6.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>Headers/stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -154,6 +154,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Use</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Headers/stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="src\TextureManager.cpp" />
     <ClCompile Include="src\TObject.cpp" />
@@ -206,15 +207,20 @@
     <ClInclude Include="Json\include\nlohmann\thirdparty\hedley\hedley_undef.hpp" />
     <ClInclude Include="Json\single_include\nlohmann\json.hpp" />
     <ClInclude Include="Json\single_include\nlohmann\json_fwd.hpp" />
-    <ClInclude Include="src\Camera.h" />
-    <ClInclude Include="src\Map.h" />
-    <ClInclude Include="src\ReadJson.h" />
-    <ClInclude Include="src\stdafx.h" />
-    <ClInclude Include="src\structs.h" />
-    <ClInclude Include="src\TextureManager.h" />
-    <ClInclude Include="src\TObject.h" />
+    <ClInclude Include="src\Headers\Camera.h" />
+    <ClInclude Include="src\Headers\Map.h" />
+    <ClInclude Include="src\Headers\ReadJson.h" />
+    <ClInclude Include="src\Headers\stdafx.h" />
+    <ClInclude Include="src\Headers\structs.h" />
+    <ClInclude Include="src\Headers\TextureManager.h" />
+    <ClInclude Include="src\Headers\TObject.h" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="Settings.json">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <FileType>Document</FileType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </Text>
     <None Include="src\ClassDiagram.cd" />
   </ItemGroup>
   <ItemGroup>
