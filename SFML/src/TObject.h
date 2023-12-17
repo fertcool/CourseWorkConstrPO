@@ -17,24 +17,19 @@ public:
 	virtual void draw();
 };
 //классы обьектов 
-class Grass : public TObject 
-{
+class Grass : public TObject {
 public: Grass(float x, float y, float z, float scale, Texture* texture); Grass();
 };
-class Flower1 :public TObject {
-public: Flower1(float x, float y, float z, float scale, Texture* texture); Flower1();
+
+class Flower : public TObject {
+public:Flower(float x, float y, float z, float scale, Texture* texture); Flower();
 };
-class Flower2 : public TObject {
-public:Flower2(float x, float y, float z, float scale, Texture* texture); Flower2();
-};
+
 class Mashroom : public TObject {
 public:Mashroom(float x, float y, float z, float scale, Texture* texture); Mashroom();
 };
-class Tree1 : public TObject {
-public:Tree1(float x, float y, float z, float scale, Texture* texture); Tree1();
-};
-class Tree2 : public TObject {
-public:Tree2(float x, float y, float z, float scale, Texture* texture); Tree2();
+class Tree : public TObject {
+public:Tree(float x, float y, float z, float scale, Texture* texture); Tree();
 };
 
 #endif

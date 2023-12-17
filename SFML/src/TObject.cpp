@@ -33,17 +33,11 @@ void TObject::draw()
 Grass::Grass(float x, float y, float z, float scale, Texture* texture) :TObject(x, y, z, scale, texture) {};
 Grass::Grass() :TObject() {};
 
-Flower1::Flower1(float x, float y, float z, float scale, Texture* texture) :TObject(x, y, z, scale, texture) {};
-Flower1::Flower1() :TObject() {};
-
-Flower2::Flower2(float x, float y, float z, float scale, Texture* texture) :TObject(x, y, z, scale, texture) {};
-Flower2::Flower2() :TObject() {};
+Flower::Flower(float x, float y, float z, float scale, Texture* texture) :TObject(x, y, z, scale, texture) {};
+Flower::Flower() :TObject() {};
 
 Mashroom::Mashroom(float x, float y, float z, float scale, Texture* texture) :TObject(x, y, z, scale, texture) {};
 Mashroom::Mashroom() :TObject() {};
 
-Tree1::Tree1(float x, float y, float z, float scale, Texture* texture) :TObject(x, y, z, scale, texture) {};
-Tree1::Tree1() :TObject() {};
-
-Tree2::Tree2(float x, float y, float z, float scale, Texture* texture) :TObject(x, y, z, scale, texture) {};
-Tree2::Tree2() :TObject() {};
+Tree::Tree(float x, float y, float z, float scale, Texture* texture) :TObject(x, y, z, scale, texture) {};
+Tree::Tree() :TObject() {};

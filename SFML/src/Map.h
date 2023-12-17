@@ -36,9 +36,6 @@ public:
     bool IsCoordInMap(float x, float y);//проверка существования координат x и y
     void MapShow(Window& window);//отрисовка карты
 
-    static inline int jopa{};
-    
-
 };
 
 

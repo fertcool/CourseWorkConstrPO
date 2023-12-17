@@ -6,7 +6,7 @@
 int main()
 {
     // создаем окно
-    Window window(sf::VideoMode(1280, 720), "OpenGL", Style::Default, sf::ContextSettings(24, 8, 16, 3, 3));
+    Window window(sf::VideoMode(GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN)), "OpenGL", Style::Default, sf::ContextSettings(24, 8, 16, 3, 3));
 
     window.setVerticalSyncEnabled(true);
    
@@ -29,11 +29,12 @@ int main()
     TexM.add("./assets/tree.png");
     TexM.add("./assets/tree2.png");
 
+    //определение настраиваемых переменных
     int mapH(0);
     int mapW(0);
     int HillsCount(0);
     float VegDensity(0);
-
+    //прочтение json файла
     ReadJson(&mapW, &mapH, &HillsCount, &VegDensity);
 
     //создаем карту
@@ -41,12 +42,14 @@ int main()
     
     Camera::WndResize(window.getSize().x, window.getSize().y);
 
-    
+    Clock Clock;
     // запускаем главный цикл
     bool running = true;
     while (running)
     {
-
+        float Framerate = 1.f / Clock.getElapsedTime().asSeconds();
+        std::cout << Framerate<<std::endl;
+        Clock.restart();
         // обрабатываем события
         sf::Event event;
         while (window.pollEvent(event))

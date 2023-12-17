@@ -202,6 +202,29 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Settings.json" />
+    <None Include="src\ClassDiagram.cd" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="assets\flower.png">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
+    <Image Include="assets\flower2.png">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
+    <Image Include="assets\grib.png">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
+    <Image Include="assets\pole.png">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
+    <Image Include="assets\trava.png">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
+    <Image Include="assets\tree.png">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
+    <Image Include="assets\tree2.png">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
   </ItemGroup>
 </Project>

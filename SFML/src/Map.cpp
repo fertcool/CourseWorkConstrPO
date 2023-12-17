@@ -99,12 +99,12 @@ Map::Map(int imapW, int imapH, int iHillsCount, float iVegDensity, TextureManage
             }
             else if (rand() % 2 == 0)
             {
-                objects[i] = new Flower1;
+                objects[i] = new Flower;
                 objects[i]->texture = tex_flower1;
             }
             else
             {
-                objects[i] = new Flower2;
+                objects[i] = new Flower;
                 objects[i]->texture = tex_flower2;
             }
             
@@ -118,14 +118,13 @@ Map::Map(int imapW, int imapH, int iHillsCount, float iVegDensity, TextureManage
         }
         else // выделение памяти под дерево
         {
+            objects[i] = new Tree;
             if (rand() % 2 == 0)
             {
-                objects[i] = new Tree1;
                 objects[i]->texture = tex_tree1;
             }
             else 
             {
-                objects[i] = new Tree2;
                 objects[i]->texture = tex_tree2;
             }
             
@@ -153,8 +152,8 @@ void Map::MapShow(Window& window)
     int mapIndCnt = _msize(indexes) / sizeof(GLuint);//количество индексов
 
     glEnable(GL_TEXTURE_2D);
-    GLfloat position[] = { 1,0,1,0 };//расположение света
-    glLightfv(GL_LIGHT0, GL_POSITION, position);
+    GLfloat Lposition[] = { 1,0,1,0 };//расположение света
+    glLightfv(GL_LIGHT0, GL_POSITION, Lposition);
 
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -219,7 +218,8 @@ void Map::MapCreateHill(int posX, int posY, int rad, int height)
                 if (len < rad)
                 {
                     len = len / rad * M_PI_2;
-                    vertexes[Access2(i, j)].z += cos(len) * height;
+                    vertexes[Access2(i, j)].z += cos(len)*height;
+                    
                 }
             }
         }

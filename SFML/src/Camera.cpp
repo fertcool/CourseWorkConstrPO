@@ -11,7 +11,7 @@ void Camera::Move(Window& window)
 {
     if(!OnJump)//если не прыгаем - перемещаемся (клавиатура)
         CameraMoveDirection();
-    CameraAutoMoveByMouse(400, 400, 0.2f, window);//поворот камеры (мышкой)
+    CameraAutoMoveByMouse(GetSystemMetrics(SM_CXSCREEN)/2, GetSystemMetrics(SM_CYSCREEN)/2, 0.2f, window);//поворот камеры (мышкой)
     CameraAplly();//применяем
 }
 
@@ -115,7 +115,7 @@ void Camera::CameraJump(Map* map)
         y += cos(Angle) * deltaT * speed;//обновляем координаты
         z += deltaT * speedZ;
 
-        speedZ -=  deltaT * 9.78 * fall_coef;//изменение скорости по Z
+        speedZ -= deltaT * 9.78 * fall_coef;//изменение скорости по Z
         
     }
     else //конец прыжка
