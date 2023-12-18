@@ -221,6 +221,9 @@
       <FileType>Document</FileType>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </Text>
+    <None Include="..\x64\Debug\Settings.json" />
+    <None Include="..\x64\Debug\SFML.exe" />
+    <None Include="..\x64\Debug\SFML.pdb" />
     <None Include="src\ClassDiagram.cd" />
   </ItemGroup>
   <ItemGroup>

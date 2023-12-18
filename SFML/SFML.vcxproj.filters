@@ -203,6 +203,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="src\ClassDiagram.cd" />
+    <None Include="..\x64\Debug\Settings.json" />
+    <None Include="..\x64\Debug\SFML.exe" />
+    <None Include="..\x64\Debug\SFML.pdb" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\flower.png">
