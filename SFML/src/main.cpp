@@ -8,6 +8,7 @@ int main()
     // создаем окно
     Window window(sf::VideoMode(GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN)), "OpenGL", Style::Default, sf::ContextSettings(24, 8, 16, 3, 3));
 
+    //вертикальная синхронизация
     window.setVerticalSyncEnabled(true);
    
     // загружаем ресурсы, инициализируем состояния OpenGL
@@ -42,14 +43,14 @@ int main()
     
     Camera::WndResize(window.getSize().x, window.getSize().y);
 
-    Clock Clock;
+    
     // запускаем главный цикл
     bool running = true;
+    
     while (running)
     {
-        float Framerate = 1.f / Clock.getElapsedTime().asSeconds();
-        std::cout << Framerate<<std::endl;
-        Clock.restart();
+        
+
         // обрабатываем события
         sf::Event event;
         while (window.pollEvent(event))
@@ -67,7 +68,7 @@ int main()
         }
 
         // очищаем буферы
-        glClearColor(0.0f, 1.0f, 0.7f, 0.0f);
+        glClearColor(0.0f, 1.0f, 0.7f, 0.0f);//отрисовка неба
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         //отрисовка мира в движении
@@ -84,8 +85,7 @@ int main()
         Sleep(1);
     }
 
-    // освобождаем ресурсы
-
+    
     return 0;
 }
 

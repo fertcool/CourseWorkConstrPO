@@ -1,8 +1,8 @@
 {
   "settings": {
-    "mapH": 150,
-    "mapW": 150,
-    "HillsCount": 100,
-    "VegDensity": 1
+    "mapH": 100,
+    "mapW": 100,
+    "HillsCount": 5,
+    "VegDensity": 0.1
   }
 }

@@ -24,7 +24,7 @@ void Camera::WndResize(int x, int y)
 
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    glFrustum(-k * sz, k * sz, -sz, sz, sz * 2, 1000);//100 - дальность прорисовки
+    glFrustum(-k * sz, k * sz, -sz, sz, sz * 2, 1000);//1000 - дальность прорисовки
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 }
