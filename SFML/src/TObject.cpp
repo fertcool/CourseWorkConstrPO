@@ -1,5 +1,5 @@
-#include "Headers/stdafx.h"
-#include "Headers/TObject.h"
+#include "stdafx.h"
+#include "TObject.h"
 
 TObject::TObject() :x(0), y(0), z(0), scale(0), texture(nullptr) {};
 TObject::TObject(float x, float y, float z, float scale, Texture* texture) :

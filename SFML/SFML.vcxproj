@@ -70,6 +70,14 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <CustomBuildBeforeTargets>
+    </CustomBuildBeforeTargets>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <CustomBuildBeforeTargets>
+    </CustomBuildBeforeTargets>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -111,10 +119,10 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;SFML_STATIC;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\fertc\source\repos\SFML\SFMLibrary\SFML-2.6.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\fertc\source\repos\SFML\SFML\src\Headers;C:\Users\fertc\source\repos\SFML\SFMLibrary\SFML-2.6.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>Headers/stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -122,6 +130,18 @@
       <AdditionalLibraryDirectories>C:\Users\fertc\source\repos\SFML\SFMLibrary\SFML-2.6.0\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>sfml-graphics-s-d.lib;sfml-window-s-d.lib;sfml-system-s-d.lib;opengl32.lib;freetype.lib;winmm.lib;gdi32.lib;User32.lib;Advapi32.lib</AdditionalDependencies>
     </Link>
+    <CopyFileToFolders>
+      <DestinationFileName>
+      </DestinationFileName>
+    </CopyFileToFolders>
+    <CopyFileToFolders>
+      <RootFolder>
+      </RootFolder>
+    </CopyFileToFolders>
+    <PostBuildEvent>
+      <Command>xcopy assets $(OutDir)\assets\  /E /Y
+xcopy Settings.json $(OutDir) /Y</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -131,10 +151,10 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;SFML_STATIC;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\fertc\source\repos\SFML\SFMLibrary\SFML-2.6.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\fertc\source\repos\SFML\SFML\src\Headers;C:\Users\fertc\source\repos\SFML\SFMLibrary\SFML-2.6.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>Headers/stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -144,6 +164,18 @@
       <AdditionalLibraryDirectories>C:\Users\fertc\source\repos\SFML\SFMLibrary\SFML-2.6.0\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>sfml-graphics-s.lib;sfml-system-s.lib;sfml-window-s.lib;opengl32.lib;freetype.lib;winmm.lib;gdi32.lib;User32.lib;Advapi32.lib</AdditionalDependencies>
     </Link>
+    <CopyFileToFolders>
+      <DestinationFileName>
+      </DestinationFileName>
+    </CopyFileToFolders>
+    <CopyFileToFolders>
+      <RootFolder>
+      </RootFolder>
+    </CopyFileToFolders>
+    <PostBuildEvent>
+      <Command>xcopy assets $(OutDir)\assets\  /E /Y
+xcopy Settings.json $(OutDir) /Y</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Camera.cpp" />
@@ -154,7 +186,8 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Use</PrecompiledHeader>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Headers/stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="src\TextureManager.cpp" />
     <ClCompile Include="src\TObject.cpp" />
@@ -216,24 +249,12 @@
     <ClInclude Include="src\Headers\TObject.h" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="Settings.json">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
-      <FileType>Document</FileType>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
-    </Text>
-    <None Include="..\x64\Debug\Settings.json" />
     <None Include="..\x64\Debug\SFML.exe" />
     <None Include="..\x64\Debug\SFML.pdb" />
+    <Text Include="Settings.json">
+      <FileType>Document</FileType>
+    </Text>
     <None Include="src\ClassDiagram.cd" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="assets\flower.png" />
-    <Image Include="assets\flower2.png" />
-    <Image Include="assets\grib.png" />
-    <Image Include="assets\pole.png" />
-    <Image Include="assets\trava.png" />
-    <Image Include="assets\tree.png" />
-    <Image Include="assets\tree2.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />

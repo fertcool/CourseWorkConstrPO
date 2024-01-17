@@ -1,5 +1,5 @@
-#include "Headers/stdafx.h"
-#include "Headers/Map.h"
+#include "stdafx.h"
+#include "Map.h"
 
 Map::Map(int imapW, int imapH, int iHillsCount, float iVegDensity, TextureManager& TexM) :mapW(imapW), mapH(imapH)
 {

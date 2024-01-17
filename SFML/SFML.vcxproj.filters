@@ -203,32 +203,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="src\ClassDiagram.cd" />
-    <None Include="..\x64\Debug\Settings.json" />
     <None Include="..\x64\Debug\SFML.exe" />
     <None Include="..\x64\Debug\SFML.pdb" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="assets\flower.png">
-      <Filter>Файлы ресурсов</Filter>
-    </Image>
-    <Image Include="assets\flower2.png">
-      <Filter>Файлы ресурсов</Filter>
-    </Image>
-    <Image Include="assets\grib.png">
-      <Filter>Файлы ресурсов</Filter>
-    </Image>
-    <Image Include="assets\pole.png">
-      <Filter>Файлы ресурсов</Filter>
-    </Image>
-    <Image Include="assets\trava.png">
-      <Filter>Файлы ресурсов</Filter>
-    </Image>
-    <Image Include="assets\tree.png">
-      <Filter>Файлы ресурсов</Filter>
-    </Image>
-    <Image Include="assets\tree2.png">
-      <Filter>Файлы ресурсов</Filter>
-    </Image>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Settings.json" />
