@@ -8,10 +8,10 @@ TextureManager::TextureManager()
 
 TextureManager::~TextureManager()
 {
-    for (auto& item : tex_map)
+    /*for (auto& item : tex_map)
     {
         delete item.second;
-    }
+    }*/
 }
 //ф-я добавления текстуры в менеджер
 void TextureManager::add(std::string path)
@@ -23,13 +23,13 @@ void TextureManager::add(std::string path)
     tex_map[path] = LoadTexture(path);
 }
 //ф-я получения текстуры
-Texture* TextureManager::get(std::string path)
+TexturePtr TextureManager::get(std::string path)
 {
     if (tex_map.find(path) != tex_map.end())//если уже есть 
     {
         return tex_map[path];
     }
-    return nullptr;
+    return TexturePtr(nullptr);
 }
 //ф-я удаления текстуры
 void TextureManager::remove(std::string path)
@@ -40,14 +40,13 @@ void TextureManager::remove(std::string path)
     }
 }
 //ф-я загрузки текстуры
-Texture* TextureManager::LoadTexture(std::string path)
+TexturePtr TextureManager::LoadTexture(std::string path)
 {
-    Texture* texture = new Texture;
+    TexturePtr texture = make_TexturePtr();
     if (!texture->loadFromFile(path))
     {
         std::cout << "Texture didn't load!";
-        delete texture;
-        return nullptr;
+        return TexturePtr(nullptr);
     }
     return texture;
 }

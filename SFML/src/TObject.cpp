@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "TObject.h"
 
-TObject::TObject() :x(0), y(0), z(0), scale(0), texture(nullptr) {};
-TObject::TObject(float x, float y, float z, float scale, Texture* texture) :
+TObject::TObject() :x(0), y(0), z(0), scale(0), texture(0) {};
+TObject::TObject(float x, float y, float z, float scale, TexturePtr texture) :
 	x(x), y(y), z(z), scale(scale), texture(texture)
 {};
 
@@ -20,7 +20,7 @@ void TObject::draw()
 	glVertexPointer(3, GL_FLOAT, 0, plant);//загрузка вершин
 	glTexCoordPointer(2, GL_FLOAT, 0, plantUV);//загрузка координат текстур
 	glNormal3f(0, 0, 1);//нормаль
-	Texture::bind(texture);//связб с текстурой
+	Texture::bind(texture.get());//связб с текстурой
 	glPushMatrix();
 		glTranslatef(x, y, z);//перемещение по заданным координатам
 		glScalef(scale, scale, scale);//масштабирование
@@ -30,14 +30,14 @@ void TObject::draw()
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 }
 
-Grass::Grass(float x, float y, float z, float scale, Texture* texture) :TObject(x, y, z, scale, texture) {};
+Grass::Grass(float x, float y, float z, float scale, TexturePtr texture) :TObject(x, y, z, scale, texture) {};
 Grass::Grass() :TObject() {};
 
-Flower::Flower(float x, float y, float z, float scale, Texture* texture) :TObject(x, y, z, scale, texture) {};
+Flower::Flower(float x, float y, float z, float scale, TexturePtr texture) :TObject(x, y, z, scale, texture) {};
 Flower::Flower() :TObject() {};
 
-Mashroom::Mashroom(float x, float y, float z, float scale, Texture* texture) :TObject(x, y, z, scale, texture) {};
+Mashroom::Mashroom(float x, float y, float z, float scale, TexturePtr texture) :TObject(x, y, z, scale, texture) {};
 Mashroom::Mashroom() :TObject() {};
 
-Tree::Tree(float x, float y, float z, float scale, Texture* texture) :TObject(x, y, z, scale, texture) {};
+Tree::Tree(float x, float y, float z, float scale, TexturePtr texture) :TObject(x, y, z, scale, texture) {};
 Tree::Tree() :TObject() {};

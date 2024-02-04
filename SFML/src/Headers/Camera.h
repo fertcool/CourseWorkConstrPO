@@ -13,7 +13,7 @@ public:
 	float Xrot, Zrot;//повороты по X и по Z
 	bool OnJump;//флаг прыжка
 	float speed, speedZ;//скорость в плоскости перемещения и вертикальная скорость
-	float Angle;//угол направляющего вектора в радианах
+	//float Angle;//угол направляющего вектора в радианах
 
 	Camera(float x, float y, float z, float Xrot, float Zrot);
 	~Camera();

@@ -9,12 +9,12 @@ Map::Map(int imapW, int imapH, int iHillsCount, float iVegDensity, TextureManage
     HillsCount = iHillsCount;
     VegDensity = iVegDensity;
     texfield = TexM.get("./assets/pole.png");
-    Texture* tex_grass = TexM.get("./assets/trava.png");
-    Texture* tex_flower1 = TexM.get("./assets/flower.png");
-    Texture* tex_flower2 = TexM.get("./assets/flower2.png");
-    Texture* tex_mashroom = TexM.get("./assets/grib.png");
-    Texture* tex_tree1 = TexM.get("./assets/tree.png");
-    Texture* tex_tree2 = TexM.get("./assets/tree2.png");
+    TexturePtr tex_grass = TexM.get("./assets/trava.png");
+    TexturePtr tex_flower1 = TexM.get("./assets/flower.png");
+    TexturePtr tex_flower2 = TexM.get("./assets/flower2.png");
+    TexturePtr tex_mashroom = TexM.get("./assets/grib.png");
+    TexturePtr tex_tree1 = TexM.get("./assets/tree.png");
+    TexturePtr tex_tree2 = TexM.get("./assets/tree2.png");
  
     //выделение памяти под массивы
     vertexes = new TCell  [mapW*mapH];
@@ -144,6 +144,9 @@ Map::~Map()
     delete[] normals;
     delete[] UV;
     delete[] indexes;
+    for (int i = 0; i < numObj; ++i) 
+        delete objects[i];
+    delete[] objects;
 }
 
 //ф-я отрисовки карты
@@ -161,7 +164,7 @@ void Map::MapShow(Window& window)
         glVertexPointer(3, GL_FLOAT, 0, vertexes);//загрузка вершин
         glTexCoordPointer(2, GL_FLOAT, 0, UV);//загрузка координат текстур
         glNormalPointer(GL_FLOAT, 0, normals);//загрузка нормалей
-        Texture::bind(texfield);//связывание с текстурой sfml
+        Texture::bind(texfield.get());//связывание с текстурой sfml
         glDrawElements(GL_TRIANGLES, mapIndCnt, GL_UNSIGNED_INT, indexes);//отрисовка
     glDisableClientState(GL_VERTEX_ARRAY);
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);

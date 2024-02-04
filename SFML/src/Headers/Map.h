@@ -14,7 +14,7 @@ class Map
     int mapW, mapH;//размеры карты
     int HillsCount;//количество холмов
     float VegDensity;//плотность растительности
-    Texture* texfield;//текстура карты
+    TexturePtr texfield;//текстура карты
 
     //матрицы 
     TCell* vertexes;//2х2 массив вершин

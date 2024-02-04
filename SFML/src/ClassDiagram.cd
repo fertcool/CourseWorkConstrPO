@@ -1,70 +1,70 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="Camera" Collapsed="true">
-    <Position X="9.75" Y="0.5" Width="1.5" />
+  <Class Name="Camera">
+    <Position X="10.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AQACAAAADIAAAKAAQAAAQAABAAAAAQAQAEBgAQAAACA=</HashCode>
       <FileName>src\Headers\Camera.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Map" Collapsed="true">
-    <Position X="11.5" Y="0.5" Width="1.5" />
+  <Class Name="Map">
+    <Position X="12" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAQABEAABAABAAAAAAAAQASAAAAMIAYAgAACII=</HashCode>
       <FileName>src\Headers\Map.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="TextureManager" Collapsed="true">
-    <Position X="9.75" Y="1.5" Width="1.5" />
+  <Class Name="TextureManager">
+    <Position X="8.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAEAAAAAAAAAACEBAAAQAAABAAAAAAAAAAAAAACAAA=</HashCode>
       <FileName>src\Headers\TextureManager.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="TObject" Collapsed="true">
+  <Class Name="TObject">
     <Position X="3.75" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAIAAAACAAAAAgAAAABgBQAAAAA=</HashCode>
       <FileName>src\Headers\TObject.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Grass" Collapsed="true">
-    <Position X="5" Y="1.75" Width="1.5" />
+  <Class Name="Grass">
+    <Position X="5.25" Y="4" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>src\Headers\TObject.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Flower" Collapsed="true">
-    <Position X="7.25" Y="1.75" Width="1.5" />
+  <Class Name="Flower">
+    <Position X="7" Y="4" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>src\Headers\TObject.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Mashroom" Collapsed="true">
-    <Position X="0.5" Y="1.75" Width="1.5" />
+  <Class Name="Mashroom">
+    <Position X="0.5" Y="4" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>src\Headers\TObject.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Tree" Collapsed="true">
-    <Position X="2.75" Y="1.75" Width="1.5" />
+  <Class Name="Tree">
+    <Position X="2.5" Y="4" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>src\Headers\TObject.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Struct Name="TCell" Collapsed="true">
-    <Position X="9.75" Y="2.75" Width="1.5" />
+  <Struct Name="TCell">
+    <Position X="13.75" Y="1.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABgAQAAAAA=</HashCode>
       <FileName>src\Headers\structs.h</FileName>
     </TypeIdentifier>
   </Struct>
-  <Struct Name="TUV" Collapsed="true">
-    <Position X="11.5" Y="2.75" Width="1.5" />
+  <Struct Name="TUV">
+    <Position X="13.75" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABIAAAAAAAA=</HashCode>
       <FileName>src\Headers\structs.h</FileName>
