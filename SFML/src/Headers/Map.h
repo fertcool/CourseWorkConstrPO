@@ -17,12 +17,13 @@ class Map
     TexturePtr texfield;//текстура карты
 
     //матрицы 
-    TCell* vertexes;//2х2 массив вершин
-    TCell* normals;//2x2  массив нормалей
-    GLuint* indexes;//3x3 массив индексов
-    TUV* UV;//2x2 массив вершин для текстур
+    std::vector<TCell> vertexes;//2х2 массив вершин
+    std::vector<TCell> normals;//2x2  массив нормалей
+    std::vector<GLuint> indexes;//3x3 массив индексов
+    std::vector<TUV> UV;//2x2 массив вершин для текстур
 
-    TObject** objects;//массив указателей на обьекты
+    std::vector<std::unique_ptr<TObject>> objects;//массив указателей на обьекты
+
     int numObj;//количество обьектов
 
     void CalcNormals(TCell a, TCell b, TCell c, TCell* n);//ф-я вычисления нормалей

@@ -89,7 +89,7 @@ void Camera::CameraMoveDirection()
     }
 }
 //ф-я обновления кадра прыжка
-void Camera::CameraJump(Map* map)
+void Camera::CameraJump(Map& map)
 {
     const float speed_coef = 25;
     const float start_sZ = 10;
@@ -127,14 +127,14 @@ void Camera::CameraJump(Map* map)
     
 }
 //ф-я проверки столкновения с картой
-bool Camera::Collision(Map* map)
+bool Camera::Collision(Map& map)
 {
-    if (abs(map->MapGetHeight(x, y) - z) < 1.71f)
+    if (abs(map.MapGetHeight(x, y) - z) < 1.71f)
         return true;
     return false;
 }
 //ф-я обновления позиции игрока
-void Camera::UpdatePosition(Map* map)
+void Camera::UpdatePosition(Map& map)
 {
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))//начало прыжка
     {
@@ -143,5 +143,5 @@ void Camera::UpdatePosition(Map* map)
     if (OnJump)//прыжок
         CameraJump(map);
     else //просто перемещение
-        z = map->MapGetHeight(x, y) + 1.7f;//1.7 - высота персонажа
+        z = map.MapGetHeight(x, y) + 1.7f;//1.7 - высота персонажа
 }

@@ -17,10 +17,10 @@ Map::Map(int imapW, int imapH, int iHillsCount, float iVegDensity, TextureManage
     TexturePtr tex_tree2 = TexM.get("./assets/tree2.png");
  
     //выделение памяти под массивы
-    vertexes = new TCell  [mapW*mapH];
-    normals = new TCell  [mapW*mapH];
-    UV = new TUV [mapW*mapH];
-    indexes = new GLuint [(mapW - 1) * (mapH-1) * 6];
+    vertexes.resize(mapW*mapH);
+    normals.resize(mapW*mapH);
+    UV.resize(mapW*mapH);
+    indexes.resize((mapW - 1) * (mapH-1) * 6);
     
     //включаем необходимые режимы opengl
     glEnable(GL_LIGHTING);//освещение
@@ -86,7 +86,7 @@ Map::Map(int imapW, int imapH, int iHillsCount, float iVegDensity, TextureManage
 
     numObj = travaN + gribN + treeN;//количество всех обьектов
 
-    objects = new TObject*[numObj];//выделение памяти под массив указателей на обьекты
+    objects.resize(numObj);//выделение памяти под массив указателей на обьекты
 
     for (int i = 0; i < numObj; ++i)
     {
@@ -94,17 +94,17 @@ Map::Map(int imapW, int imapH, int iHillsCount, float iVegDensity, TextureManage
         {
             if (rand() % 100 != 0)
             {
-                objects[i] = new Grass;
+                objects[i] = std::make_unique<Grass>();
                 objects[i]->texture = tex_grass;
             }
             else if (rand() % 2 == 0)
             {
-                objects[i] = new Flower;
+                objects[i] = std::make_unique<Flower>();
                 objects[i]->texture = tex_flower1;
             }
             else
             {
-                objects[i] = new Flower;
+                objects[i] = std::make_unique<Flower>();
                 objects[i]->texture = tex_flower2;
             }
             
@@ -112,13 +112,13 @@ Map::Map(int imapW, int imapH, int iHillsCount, float iVegDensity, TextureManage
         }
         else if (i < (travaN + gribN)) // выделение памяти под гриб
         {
-            objects[i] = new Mashroom;
+            objects[i] = std::make_unique<Mashroom>();
             objects[i]->texture = tex_mashroom;
             objects[i]->scale = 0.2 + (rand() % 10) * 0.01;
         }
         else // выделение памяти под дерево
         {
-            objects[i] = new Tree;
+            objects[i] = std::make_unique<Tree>();
             if (rand() % 2 == 0)
             {
                 objects[i]->texture = tex_tree1;
@@ -140,19 +140,13 @@ Map::Map(int imapW, int imapH, int iHillsCount, float iVegDensity, TextureManage
 }
 Map::~Map()
 {
-    delete[] vertexes;
-    delete[] normals;
-    delete[] UV;
-    delete[] indexes;
-    for (int i = 0; i < numObj; ++i) 
-        delete objects[i];
-    delete[] objects;
+    
 }
 
 //ф-я отрисовки карты
 void Map::MapShow(Window& window)
 {
-    int mapIndCnt = _msize(indexes) / sizeof(GLuint);//количество индексов
+    int mapIndCnt = indexes.size();//количество индексов
 
     glEnable(GL_TEXTURE_2D);
     GLfloat Lposition[] = { 1,0,1,0 };//расположение света
@@ -161,11 +155,11 @@ void Map::MapShow(Window& window)
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
     glEnableClientState(GL_NORMAL_ARRAY);
-        glVertexPointer(3, GL_FLOAT, 0, vertexes);//загрузка вершин
-        glTexCoordPointer(2, GL_FLOAT, 0, UV);//загрузка координат текстур
-        glNormalPointer(GL_FLOAT, 0, normals);//загрузка нормалей
+        glVertexPointer(3, GL_FLOAT, 0, vertexes.data());//загрузка вершин
+        glTexCoordPointer(2, GL_FLOAT, 0, UV.data());//загрузка координат текстур
+        glNormalPointer(GL_FLOAT, 0, normals.data());//загрузка нормалей
         Texture::bind(texfield.get());//связывание с текстурой sfml
-        glDrawElements(GL_TRIANGLES, mapIndCnt, GL_UNSIGNED_INT, indexes);//отрисовка
+        glDrawElements(GL_TRIANGLES, mapIndCnt, GL_UNSIGNED_INT, indexes.data());//отрисовка
     glDisableClientState(GL_VERTEX_ARRAY);
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);
     glDisableClientState(GL_NORMAL_ARRAY);

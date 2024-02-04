@@ -23,9 +23,9 @@ public:
 	void Move(Window& window);//основная функция движения камеры
 	void CameraAutoMoveByMouse(int conterX, int conterY, float speed, Window& window);//ф-я движения камеры мышкой
 	void CameraMoveDirection();//ф-я передвижения камеры в пространстве с помощью клавиатуры
-	void CameraJump(Map* map);
-	bool Collision(Map* map);
-	void UpdatePosition(Map* map);
+	void CameraJump(Map& map);
+	bool Collision(Map& map);
+	void UpdatePosition(Map& map);
 };
 
 #endif // !CAMERA_H

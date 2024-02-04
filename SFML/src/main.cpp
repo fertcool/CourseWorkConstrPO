@@ -74,7 +74,7 @@ int main()
         //отрисовка мира в движении
         glPushMatrix();
             camera.Move(window);
-            camera.UpdatePosition(&map);
+            camera.UpdatePosition(map);
             map.MapShow(window);
         glPopMatrix();
 
