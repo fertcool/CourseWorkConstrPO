@@ -1,21 +1,25 @@
 #include "stdafx.h"
 #include "Camera.h"
 
+struct POINT
+{
+    int x,y;
+};
 Camera::Camera(float x, float y, float z, float Xrot, float Zrot) :
     x(x), y(y), z(z), Xrot(Xrot), Zrot(Zrot), OnJump(false), speed(0), speedZ(0) {};
 
 Camera::~Camera() {};
 
-//основная функция движения камеры
+//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 void Camera::Move(Window& window)
 {
-    if(!OnJump)//если не прыгаем - перемещаемся (клавиатура)
+    if(!OnJump)//пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ - пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ)
         CameraMoveDirection();
-    CameraAutoMoveByMouse(GetSystemMetrics(SM_CXSCREEN)/2, GetSystemMetrics(SM_CYSCREEN)/2, 0.2f, window);//поворот камеры (мышкой)
-    CameraAplly();//применяем
+    CameraAutoMoveByMouse(1280/2, 720/2, 0.02f, window);//пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅ)
+    CameraAplly();//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 }
 
-//ф-я адаптации камеры (перспективы) при изменении размера окна
+//пїЅ-пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ) пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
 void Camera::WndResize(int x, int y)
 {
     glViewport(0, 0, x, y);
@@ -24,12 +28,12 @@ void Camera::WndResize(int x, int y)
 
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    glFrustum(-k * sz, k * sz, -sz, sz, sz * 2, 1000);//1000 - дальность прорисовки
+    glFrustum(-k * sz, k * sz, -sz, sz, sz * 2, 1000);//1000 - пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 }
 
-//ф-я применения позиции и поворота камеры
+//пїЅ-пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 void Camera::CameraAplly()
 {
 	glRotatef(-Xrot, 1, 0, 0);
@@ -37,7 +41,7 @@ void Camera::CameraAplly()
 	glTranslatef(-x, -y, -z);
 }
 
-//ф-я поворота камеры
+//пїЅ-пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 void Camera::CameraRotation(float xAngle, float zAngle)
 {
     Zrot += zAngle;
@@ -48,22 +52,22 @@ void Camera::CameraRotation(float xAngle, float zAngle)
     if (Xrot > 180) Xrot = 180;
 }
 
-//ф-я движения камеры мышкой
+//пїЅ-пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 void Camera::CameraAutoMoveByMouse(int conterX, int conterY, float speed, Window& window)
 {
     
-    if (!window.hasFocus()) return;//если не в фокусе - не двигаем
+    if (!window.hasFocus()) return;//пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ - пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     POINT cur = { Mouse::getPosition().x, Mouse::getPosition().y };
     POINT base = { conterX, conterY };
-    CameraRotation((base.y - cur.y) * speed, (base.x - cur.x) * speed);//движение относительно базовых координат
+    CameraRotation((base.y - cur.y) * speed, (base.x - cur.x) * speed);//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     Mouse::setPosition(Vector2i(base.x, base.y));
     
 }
 
-//ф-я передвижения камеры в пространстве с помощью клавиатуры
+//пїЅ-пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 void Camera::CameraMoveDirection()
 {
-    float AngleRad = -Zrot / 180 * M_PI;//перевод в радианы
+    float AngleRad = -Zrot / 180 * M_PI;//пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
     speed = 0;
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
@@ -82,13 +86,13 @@ void Camera::CameraMoveDirection()
     {
         speed = 0.3; AngleRad += M_PI_2;
     }
-    if (speed != 0)//перемещение
+    if (speed != 0)//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     {
         x += sin(AngleRad) * speed;
         y += cos(AngleRad) * speed;
     }
 }
-//ф-я обновления кадра прыжка
+//пїЅ-пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 void Camera::CameraJump(Map& map)
 {
     const float speed_coef = 25;
@@ -99,7 +103,7 @@ void Camera::CameraJump(Map& map)
     static bool firstin = true;
     
    
-    if (firstin)//точка 1 входа
+    if (firstin)//пїЅпїЅпїЅпїЅпїЅ 1 пїЅпїЅпїЅпїЅпїЅ
     {
         speed *= speed_coef;
 
@@ -108,40 +112,40 @@ void Camera::CameraJump(Map& map)
         firstin = false;
     };
 
-    if (!Collision(map) || speedZ > 0)//если не столкнулись с картой или прыжок не окончен
+    if (!Collision(map) || speedZ > 0)//пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     {
-        float AngleRad = -Zrot / 180 * M_PI;//перевод в радианы
-        float deltaT = clock.restart().asSeconds();//вычисление разности времени(в сек.)
+        float AngleRad = -Zrot / 180 * M_PI;//пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+        float deltaT = clock.restart().asSeconds();//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ(пїЅ пїЅпїЅпїЅ.)
         x += sin(AngleRad) * deltaT * speed;
-        y += cos(AngleRad) * deltaT * speed;//обновляем координаты
+        y += cos(AngleRad) * deltaT * speed;//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         z += deltaT * speedZ;
 
-        speedZ -= deltaT * 9.78 * fall_coef;//изменение скорости по Z
+        speedZ -= deltaT * 9.78 * fall_coef;//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ Z
         
     }
-    else //конец прыжка
+    else //пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
     {
         firstin = true;
         OnJump = false;
     }
     
 }
-//ф-я проверки столкновения с картой
+//пїЅ-пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 bool Camera::Collision(Map& map)
 {
     if (abs(map.MapGetHeight(x, y) - z) < 1.71f)
         return true;
     return false;
 }
-//ф-я обновления позиции игрока
+//пїЅ-пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 void Camera::UpdatePosition(Map& map)
 {
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))//начало прыжка
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))//пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
     {
         OnJump = true;
     }
-    if (OnJump)//прыжок
+    if (OnJump)//пїЅпїЅпїЅпїЅпїЅпїЅ
         CameraJump(map);
-    else //просто перемещение
-        z = map.MapGetHeight(x, y) + 1.7f;//1.7 - высота персонажа
+    else //пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+        z = map.MapGetHeight(x, y) + 1.7f;//1.7 - пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 }

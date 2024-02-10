@@ -1,4 +1,4 @@
-//заголовок менеджера текстур
+//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 #ifndef TEXTUREMANAGER_H
 #define TEXTUREMANAGER_H
 #include "stdafx.h"
@@ -8,14 +8,14 @@ typedef std::shared_ptr<Texture> TexturePtr;
 
 class TextureManager
 {
-	std::unordered_map<std::string, TexturePtr> tex_map; // хеш-таблица с именемами и указателями на текстуры
-	TexturePtr LoadTexture(std::string path);//загрузка текстуры
+	std::unordered_map<std::string, TexturePtr> tex_map; // пїЅпїЅпїЅ-пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+	TexturePtr LoadTexture(std::string path);//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 public:
 	TextureManager();
 	~TextureManager();
-	void add(std::string path); //ф-я добавления 
-	TexturePtr get(std::string path); //ф-я получения
-	void remove(std::string name); //ф-я удаления
+	void add(std::string path); //пїЅ-пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ 
+	TexturePtr get(std::string path); //пїЅ-пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+	void remove(std::string name); //пїЅ-пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
 };
 #endif

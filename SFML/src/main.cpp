@@ -5,23 +5,23 @@
 
 int main()
 {
-    // создаем окно
-    Window window(sf::VideoMode(GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN)), "OpenGL", Style::Default, sf::ContextSettings(24, 8, 16, 3, 3));
+    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
+    Window window(sf::VideoMode(1280, 720), "OpenGL", Style::Default, sf::ContextSettings(24, 8, 16, 3, 3));
 
-    //вертикальная синхронизация
+    //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     window.setVerticalSyncEnabled(true);
    
-    // загружаем ресурсы, инициализируем состояния OpenGL
+    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ OpenGL
     glLoadIdentity();
     glEnable(GL_DEPTH_TEST);
-    ShowCursor(FALSE);
+    // ShowCursor(FALSE);
 
-    //создаем камеру
+    //пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
     Camera camera(0, 0, 1.7, 0, 0);
 
-    //создаем менеджер текстур
+    //пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     TextureManager TexM;
-    //добавляем текстуры
+    //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     TexM.add("./assets/pole.png");
     TexM.add("./assets/trava.png");
     TexM.add("./assets/flower.png");
@@ -30,48 +30,48 @@ int main()
     TexM.add("./assets/tree.png");
     TexM.add("./assets/tree2.png");
 
-    //определение настраиваемых переменных
+    //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     int mapH(0);
     int mapW(0);
     int HillsCount(0);
     float VegDensity(0);
-    //прочтение json файла
+    //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ json пїЅпїЅпїЅпїЅпїЅ
     ReadJson(&mapW, &mapH, &HillsCount, &VegDensity);
 
-    //создаем карту
+    //пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
     Map map(mapW, mapH, HillsCount, VegDensity, TexM);
     
     Camera::WndResize(window.getSize().x, window.getSize().y);
 
     
-    // запускаем главный цикл
+    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
     bool running = true;
     
     while (running)
     {
         
 
-        // обрабатываем события
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         sf::Event event;
         while (window.pollEvent(event))
         {
-            if (event.type == sf::Event::Closed || Keyboard::isKeyPressed(sf::Keyboard::Scancode::Escape))
+            if (event.type == sf::Event::Closed || Keyboard::isKeyPressed(sf::Keyboard::Escape))
             {
-                // пора закрывать приложение
+                // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
                 running = false;
             }
             else if (event.type == sf::Event::Resized)
             {
-                // применяем область просмотра, когда изменены размеры окна
+                // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
                 Camera::WndResize(event.size.width, event.size.height);
             }
         }
 
-        // очищаем буферы
-        glClearColor(0.0f, 1.0f, 0.7f, 0.0f);//отрисовка неба
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+        glClearColor(0.0f, 1.0f, 0.7f, 0.0f);//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        //отрисовка мира в движении
+        //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         glPushMatrix();
             camera.Move(window);
             camera.UpdatePosition(map);
@@ -79,10 +79,10 @@ int main()
         glPopMatrix();
 
         
-        // конец текущего кадра (меняем местами передний и задний буферы)
+        // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ)
         window.display();
 
-        Sleep(1);
+        std::this_thread::sleep_for(std::chrono::milliseconds(1));
     }
 
     
