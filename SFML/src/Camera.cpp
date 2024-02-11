@@ -2,7 +2,7 @@
 #include "Camera.h"
 
 Camera::Camera(float x, float y, float z, float Xrot, float Zrot) :
-    x(x), y(y), z(z), Xrot(Xrot), Zrot(Zrot), OnJump(false), speed(0), speedZ(0) {};
+    x(x), y(y), z(z), Xrot(Xrot), Zrot(Zrot), OnJump(false), speed(0), speedZ(0), BodyAngle(0) {};
 
 Camera::~Camera() {};
 
@@ -63,7 +63,7 @@ void Camera::CameraAutoMoveByMouse(int conterX, int conterY, float speed, Window
 //ф-я передвижения камеры в пространстве с помощью клавиатуры
 void Camera::CameraMoveDirection()
 {
-    float AngleRad = -Zrot / 180 * M_PI;//перевод в радианы
+    BodyAngle = -Zrot / 180 * M_PI;//перевод в радианы
 
     speed = 0;
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
@@ -76,16 +76,16 @@ void Camera::CameraMoveDirection()
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
     {
-        speed = 0.3; AngleRad -= M_PI_2;
+        speed = 0.3; BodyAngle -= M_PI_2;
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
     {
-        speed = 0.3; AngleRad += M_PI_2;
+        speed = 0.3; BodyAngle += M_PI_2;
     }
     if (speed != 0)//перемещение
     {
-        x += sin(AngleRad) * speed;
-        y += cos(AngleRad) * speed;
+        x += sin(BodyAngle) * speed;
+        y += cos(BodyAngle) * speed;
     }
 }
 //ф-я обновления кадра прыжка
@@ -110,10 +110,10 @@ void Camera::CameraJump(Map& map)
 
     if (!Collision(map) || speedZ > 0)//если не столкнулись с картой или прыжок не окончен
     {
-        float AngleRad = -Zrot / 180 * M_PI;//перевод в радианы
+        
         float deltaT = clock.restart().asSeconds();//вычисление разности времени(в сек.)
-        x += sin(AngleRad) * deltaT * speed;
-        y += cos(AngleRad) * deltaT * speed;//обновляем координаты
+        x += sin(BodyAngle) * deltaT * speed;
+        y += cos(BodyAngle) * deltaT * speed;//обновляем координаты
         z += deltaT * speedZ;
 
         speedZ -= deltaT * 9.78 * fall_coef;//изменение скорости по Z
